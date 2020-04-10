@@ -1,0 +1,29 @@
+.row label {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    color: black;
+    font-size: small;
+}
+
+.btn-space {
+    margin-right: 5px;
+}
+
+.is-invalid {
+    border-color: red;
+}
+
+tbody input[type=text] {
+    width: 100%;
+    height: 100%;
+}
+
+.table {
+    padding: 0;
+    margin: 0;
+}
+
+.table .font {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    color: black;
+    font-size: larger;
+}

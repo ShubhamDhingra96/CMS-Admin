@@ -1,0 +1,4 @@
+#body tr input[type='text'] {
+    border: none;
+    background-color: rgba(241, 237, 237, 0.863);
+}

@@ -1,0 +1,65 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
+
+/* @import url('./assets/css/layout-default.css');
+@import url('./assets/theme/theme-turquoise.css');*/
+
+@import url('./assets/css/sidebar.css');
+@import url('./assets/css/style.css');
+.active-menuitem-routerlink {
+    background-color: turquoise;
+    color: white;
+}
+
+.ui-label {
+    color: black;
+    font-family: monospace;
+    font-style: normal;
+    font-weight: lighter;
+    font-size: 1.20em;
+}
+
+.login-form {
+    width: 340px;
+    margin: 50px auto;
+}
+
+.login-form form {
+    margin-bottom: 15px;
+    background: #f7f7f7;
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+    padding: 30px;
+}
+
+.login-form h2 {
+    margin: 0 0 15px;
+}
+
+.form-control,
+.btn {
+    min-height: 34px;
+    border-radius: 2px;
+}
+
+.btn {
+    font-size: 15px;
+}
+
+.login-head {
+    margin-top: 0;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #ddd;
+    text-align: center;
+    color: #00b1a8;
+}
+
+.pass aw-wizard-navigation-bar.horizontal.large-filled-symbols ul.steps-indicator li.done .step-indicator {
+    background-color: #0095d9;
+    color: #fff;
+}
+
+.pass aw-wizard-navigation-bar.horizontal.large-filled-symbols ul.steps-indicator li.current .step-indicator {
+    background-color: #e6e6e6;
+}

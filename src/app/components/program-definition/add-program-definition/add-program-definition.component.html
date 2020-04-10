@@ -1,0 +1,248 @@
+<div class="container pl-30 pr-30"  *ngIf="dataEntry">
+    <h2 class="">Program Definition-Add</h2>
+    <div class="dash-line"></div>
+    <p class="text-right pt-3"><span class="red">*</span> All Fields are mandatory</p>
+    <div class="shadow1 mt-4 pt-4 pb-5 pl-30 pr-30">
+        <h5 class="text-color pt-2">Program Definition Details</h5>
+        <hr>
+        <form [formGroup]="programmedefinitionFormgroup" (ngSubmit)="confirmProgramDetails()">
+            <div class="row mb-3 mt-5">
+                <div class="col-md-2 col-sm-12">
+                    <div class="">
+                        <label class="select-label1">Application Type<span class="red">*</span></label>
+                    </div>
+                </div>
+                
+                <div class="col-md-4 col-sm-12">
+                    <select class="form-control br" formControlName="applicationType" name="applicationType" [ngClass]="{ 'is-invalid':submitted && programmedefinitionFormgroup.get('applicationType').errors}">
+                      <option value="">Select</option>
+                      <option value="all">Prepared</option>
+                      <option value="credit">Credit</option>
+                      <option value="Debit">Debit</option>
+                      <option value="Commercial">Commercial</option>
+                    </select>
+                </div>
+                <div class="col-md-2 col-sm-12" *ngIf="enable" >
+                    <div class="">
+                        <label class="select-label1">Authorization Rule<span class="red">*</span></label>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-12">
+                    <select class="form-control br" formControlName="authorizationRule" *ngIf="enable" [ngClass]="{ 'is-invalid':submitted && programmedefinitionFormgroup.get('authorizationRule').errors}">
+                      <option value="">Select</option>
+                      <option value="Currency">Currency</option>
+                      <option value="Merchant">Merchane/TerminalId</option>
+                      <option value="MCC">MCC</option>
+                    </select>
+                   
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-2 col-sm-12">
+                    <div class="">
+                        <label class="select-label1">Program Code<span class="red">*</span></label>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-12">
+                    <div class="">
+                        <input type="text" maxlength="6" formControlName="programmeCode" name="programmeCode" (input)="isInput()" class="form-control br" [ngClass]="{'is-invalid': submitted && programmedefinitionFormgroup.get('programmeCode').errors}" />
+                        <div *ngIf="submitted &&  programmedefinitionFormgroup.get('programmeCode').errors " class="invalid-feedback ">
+                            <div *ngIf="programmedefinitionFormgroup.get('programmeCode').errors.required ">Program Code should not be empty.</div>
+                            <div *ngIf="programmedefinitionFormgroup.get('programmeCode').errors.pattern ">Do not use special character (@!#$%^&*()).</div>
+                            <div *ngIf="programmedefinitionFormgroup.get('programmeCode').errors.maxlength ">Length should be between 1 to 6 char.</div>
+                        </div>
+                        <div *ngIf="isprogramCodeExist" style="color: red">
+                                Program code already exist.
+                            </div>
+                    </div>
+                </div>
+                <div class="col-md-2 col-sm-12">
+                    <div class="">
+                        <label class="select-label1">Program Description<span class="red">*</span></label>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-12">
+                    <div class="">
+                        <input type="text" formControlName="programmeDescription" name="programmeDescription" class="form-control br" [ngClass]="{'is-invalid': submitted && programmedefinitionFormgroup.get('programmeDescription').errors}" />
+                        <div *ngIf="submitted &&  programmedefinitionFormgroup.get('programmeDescription').errors " class="invalid-feedback ">
+                            <div *ngIf="programmedefinitionFormgroup.get('programmeDescription').errors.required ">Program Desscription should not be empty.</div>
+                            <div *ngIf="programmedefinitionFormgroup.get('programmeDescription').errors.pattern ">Do not use special character (@!#$%^&*()).</div>
+                            <div *ngIf="programmedefinitionFormgroup.get('programmeDescription').errors.maxlength ">Length should be between 1 to 6 char.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-2 col-sm-12">
+                    <div class="">
+                        <label class="select-label1">Short Description<span class="red">*</span></label>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-12">
+                    <div class="">
+                        <input type="text" formControlName="shortDescription" name="shortDescription" class="form-control br" [ngClass]="{'is-invalid': submitted && programmedefinitionFormgroup.get('shortDescription').errors}" />
+                        <div *ngIf="submitted &&  programmedefinitionFormgroup.get('shortDescription').errors " class="invalid-feedback ">
+                            <div *ngIf="programmedefinitionFormgroup.get('shortDescription').errors.required ">Short Description Code should not be empty.</div>
+                            <div *ngIf="programmedefinitionFormgroup.get('shortDescription').errors.pattern ">Do not use special character (@!#$%^&*()).</div>
+                            <div *ngIf="programmedefinitionFormgroup.get('shortDescription').errors.maxlength ">Length should be between 1 to 6 char.</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2 col-sm-12">
+                    <div class="">
+                        <label class="select-label1">Multiple Product Account<span class="red">*</span></label>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-12">
+                    <div class="mt-2">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" [checked]="!enable" formControlName="multipleProductAccount" (click)="Disableclick()"name="multipleProductAccount"  id="inlineRadio1" value="no">
+                            <label class="form-check-label" for="inlineRadio1">No</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" [checked]="enable" formControlName="multipleProductAccount" (click)="click()"name="multipleProductAccount" id="inlineRadio2" value="yes">
+                            <label class="form-check-label" for="inlineRadio2">Yes</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12 text-center mt-5">
+                <input type="button" class="btn btn1 shadow1 btnSubmit bg-color text-white" value="Add" (click)="addToTable()" />
+            </div>
+
+            <div class="table-responsive mt-5">
+                <table class="table table-striped table-bordered table-hover text-center">
+                    <thead class="thead-dark bg-color text-white">
+                        <tr>
+                            <th scope="col">Application Type</th>
+                            <th scope="col">Authorization Rule</th>
+                            <th scope="col">Programme Code</th>
+                            <th scope="col">Programme Description</th>
+                            <th scope="col">Short Description</th>
+                            <th scope="col">Remove</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+
+                   
+                    <tbody formArrayName="definitionArray" *ngFor="let r of programmedefinitionFormgroup.get('definitionArray').controls;index as i">
+                        <tr [formGroupName]="i" class="form-group">
+
+                            <input type="hidden" formControlName="applicationType">
+                            <input type="hidden" formControlName="authorizationrule">
+                            <input type="hidden" formControlName="programmecode">
+                            <input type="hidden" formControlName="programmedescription">
+                            <input type="hidden" formControlName="shortdescription">
+                            <input type="hidden" formControlName="insertedBy">
+                            <input type="hidden" formControlName="insertedDate">
+                            <input type="hidden" formControlName="modifiedBy">
+                            <input type="hidden" formControlName="modifiedDate">
+
+                            <td><input type="text" class="form-control text-center" style="border: none;" formControlName="applicationType" readonly></td>
+                            <td><input type="text" class="form-control text-center" style="border: none;" formControlName="authorizationRule" readonly></td>
+                            <td><input type="text" class="form-control text-center" style="border: none;" formControlName="programmeCode" readonly></td>
+                            <td><input type="text" class="form-control text-center" style="border: none;" formControlName="programmeDescription" readonly></td>
+                            <td><input type="text" class="form-control text-center" style="border: none;" formControlName="shortDescription" readonly></td>
+                            <td><input type="button" value="remove" (click)="remove(i)"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-12 text-center mt-5">
+                <div class="col-md-12 mt-5">
+                    <input type="button" class="btn btn1 shadow1 btnSubmit bg-color text-white" value="Cancel" (click)="cancel()" />
+                    <input type="submit" class="btn btn1 shadow1 btnSubmit bg-color text-white" value="Submit"/>
+                </div>
+            </div>   
+        </form>
+    </div>
+</div>
+
+
+<div class="shadow1 mt-5 pt-4 pb-5 pl-30 pr-30" *ngIf="confirm">
+    <h5 class="text-color pt-2">Programme Definition Details</h5>
+    <hr>
+    <form>
+        <div class="table-responsive" *ngFor="let data of confirmForm.definitionArray; index as i">
+            <table class="table table-bordered">
+
+                <tr>
+                    <th colspan="4" class="bg-dark text-light">{{i+1}}).</th>
+                </tr>
+                <tr>
+                    <th scope="col">Application Type</th>
+                    <td>{{data.applicationType}}</td>
+
+                    <th scope="col">Authorization Rule</th>
+                    <td>{{data.authorizationRule}}</td>
+                </tr>
+                <tr>
+                    <th scope="col"> Programme Code</th>
+                    <td>{{data.programmeCode}}</td>
+
+                    <th  class="text-center">Programme Description</th>
+                    <td  class="text-center">{{data.programmeDescription}}</td>    
+                </tr>
+                <tr>
+                        <th scope="col">Short Description</th>
+                        <td>{{data.shortDescription}}</td>
+                </tr>
+
+            </table>
+            <hr style="border:1px solid gray;">
+        </div>
+
+        <div class=" row col-md-12 text-center mt-5">
+            <input type="button" class="btn btn1 shadow1 btnSubmit bg-color text-white" value="Cancel" (click)="back()" />
+            <input type="button" class="btn btn1 shadow1 btnSubmit bg-color text-white ml-2" value="Confirm" (click)="save()" />
+        </div>
+    </form>
+</div>
+
+
+<div class="modal" id="success" role="dialog">
+<div class="modal-dialog modal-dialog-centered">
+
+<!-------------------------------------------------------->
+<!-------------------------------------------------------->
+<!-------------------------------------------------------->
+<!-- Modal content-->
+<div class="modal-content">
+    <div class="modal-header bg-info">
+        <h3 class="text-light">Success</h3>
+        <button type="button" class="close" (click)="close()" data-dismiss="modal">&times;</button>
+    </div>
+    <div class="modal-body">
+        <h4>{{success}}</h4>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-info" data-dismiss="modal" (click)="close()">Close</button>
+    </div>
+</div>
+
+</div>
+</div>
+
+<div class="modal" id="error" role="dialog">
+<div class="modal-dialog modal-dialog-centered">
+
+<!-------------------------------------------------------->
+<!-------------------------------------------------------->
+<!-------------------------------------------------------->
+<!-- Modal content-->
+<div class="modal-content">
+    <div class="modal-header bg-danger">
+        <h3 class="text-light">Error</h3>
+        <button type="button" class="close" (click)="close()" data-dismiss="modal">&times;</button>
+    </div>
+    <div class="modal-body">
+        <h4>{{success}}</h4>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="close()">Close</button>
+    </div>
+</div>
+
+</div>
+</div>

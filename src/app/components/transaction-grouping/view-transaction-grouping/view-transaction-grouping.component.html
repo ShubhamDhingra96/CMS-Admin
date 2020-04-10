@@ -1,0 +1,73 @@
+<div class="container pl-30 pr-30" *ngIf="isEntity">
+  <h2 class="">Transaction Grouping - View</h2>
+  <div class="dash-line"></div>
+  <p class="text-right pt-3"><span class="red">*</span> All Fields are mandatory</p>
+  <div class="shadow1 mt-2 pt-4 pb-5 pl-30 pr-30">
+    <h5 class="text-color pt-2">Select Group Transaction</h5>
+    <hr>
+    <form [formGroup]="transactionGroup" (ngSubmit)="viewTransaction()">
+      <div class="col-xl-6 col-lg-7 col-md-12 col-sm-12 mx-auto">
+        <div class="row mb-3 mt-4 pt-2">
+          <div class="col-md-6 col-sm-12">
+            <div class="">
+              <label class="select-label1">Group Transaction <span class="red">*</span></label>
+            </div>
+          </div>
+          <div class="col-md-6 col-sm-12">
+            <div class="">
+              <select class="form-control br" formControlName="transactions" [ngClass]="{ 'is-invalid':submitted && transactionGroup.get('transactions').errors}">
+                <option value="">Select</option>
+                <option *ngFor="let r of entity" value="{{r.username}}">{{r.username}}</option>
+                <!-- <option value="All">All</option> -->
+             </select>
+             <div *ngIf="submitted && transactionGroup.get('transactions').errors" class="invalid-feedback">
+              <div *ngIf="transactionGroup.get('transactions').errors.required">Please Select Transaction Group</div>
+          </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="col-md-12 text-center mt-5">
+      
+          <input type="submit" class="btn btn1 shadow1 btnSubmit bg-color text-white ml-2" value="Submit" />
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<div class="container pl-30 pr-30" *ngIf="isView">
+  <h2 class="">Transaction Group Details - View</h2>
+  <div class="dash-line"></div>
+  <div class="shadow1 mt-2 pt-4 pb-5 pl-30 pr-30">
+    <h5 class="text-color pt-2">Transaction Group</h5>
+    <hr>
+    <div class="table-responsive">
+      <table class="table table-striped table-bordered table-hover text-center">
+        <thead class="thead-dark bg-color text-white">
+          <tr>
+            
+            <th scope="col">Group Txn Code</th>
+            <th scope="col">Group Txn Name</th>
+            <th scope="col">Transaction</th>
+            <th scope="col">Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let user of transactionGroupData">
+            <td>{{user.groupTransactionCode}}</td>
+            <td>{{user.groupTransactionName}}</td>
+            <td>{{user.transactions}}</td>
+            <td>{{user.status}}</td>
+          </tr>
+         
+          <tr *ngIf="error">
+            <td colspan="4">
+                <h3>{{message}}</h3>
+            </td>
+        </tr>
+
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

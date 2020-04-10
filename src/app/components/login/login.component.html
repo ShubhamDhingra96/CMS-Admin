@@ -1,0 +1,103 @@
+<div class="bg-img">
+    <div class="container pt-5">
+        <div class="row pt-5 mt-5">
+            <div class="col-xl-7 col-lg-7 col-md-7 col-sm-12 col-sm-12 pt-5 mt-4">
+                <div class="pb-5 mb-lg-5 mb-md-0 mt-4">
+                    <img src="../../../assets/images/logo-new.png" alt="" class="img-fluid ">
+                    <h1 class="green-color pt-3">NexGen Payment System</h1>
+                </div>
+            </div>
+            <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 col-sm-12">
+                <div class="form-div bg-white pl-4 pr-4 pb-4 pt-3 mt-4 login-form1">
+                    <form class="" (input)="enterData()" [formGroup]="loginForm" (ngSubmit)="checkLogin()">
+                        <h2 class="text-center text-color mb-4">Login</h2>
+                        <div style="color: red; text-align: center;" *ngIf="isError">
+                            {{errorss}}
+                        </div>
+                        <div class="form-group mb-2">
+                            <label class="form-label">User ID</label>
+                            <input type="text" class="form-control form-control-sm br" formControlName="username" value="" [ngClass]="{ 'is-invalid': submitted && loginForm.get('username').errors }" />
+                            <div *ngIf="submitted && loginForm.get('username').errors " class="invalid-feedback">
+                                <div *ngIf="loginForm.get('username').errors.required ">User ID cannot be Empty.</div>
+                                <div *ngIf="loginForm.get('username').errors.pattern ">Do not use special character (@!#$%^&*()).</div>
+                                <div *ngIf="loginForm.get('username').errors.maxlength || loginForm.get('username').errors.minlength">
+                                    Length should be 12 digit.</div>
+                            </div>
+                        </div>
+                        <div class="form-group mb-2">
+                            <label class="form-label">Password</label>
+                            <input type="password" class="form-control form-control-sm br" (input)="enterData()" formControlName="password" value="" [ngClass]="{ 'is-invalid': submitted && loginForm.get('password').errors }" />
+                            <div *ngIf="submitted && loginForm.get('password').errors " class="invalid-feedback">
+                                <div *ngIf="loginForm.get('password').errors.required ">Password cannot be Empty.</div>
+                                <div *ngIf="loginForm.get('password').errors.pattern ">Do not use this character (!#$%^&*()).</div>
+                                <div *ngIf="loginForm.get('password').errors.maxlength || loginForm.get('password').errors.minlength">
+                                    Length should be 12 digit.</div>
+                            </div>
+
+                        </div>
+                        <div class="form-group  mb-2 text-center">
+                            <input type="submit" class="btn btnSubmit bg-color text-white btn-block" value="Login" />
+                        </div>
+                        <div class="form-group text-center">
+                            <a routerLink="./forget-password" class="ForgetPwd text-color ">Forgot
+                                    Password?</a>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- <div class="bg">
+    <div class="container pt-5">
+        <div class="row pt-5">
+            <div id="parent2" class="col-xl-8 col-lg-9 col-md-12 col-sm-12 mx-auto mt-5 pt-5 p-5 bg-color shadow br-radius">
+                <img src="../../../assets/images/CMS.png" alt="" class="img-fluid pb-5 mb-lg-5 mb-md-0">
+                <div id="child2" class="col-xl-5 col-lg-6 col-md-12 col-sm-12 col-sm-12">
+                    <div>
+                        <form class="bg-white p-4 shadow1 br-radius" (input)="enterData()" [formGroup]="loginForm" (ngSubmit)="checkLogin()">
+                            <h2 class="text-center text-color mb-4">Login</h2>
+                            <div style="color: red; text-align: center;" *ngIf="isError">
+                                {{errorss}}
+                            </div>
+                            <div class="form-group mb-4">
+                                <label class="select-label">User ID</label>
+                                <input type="text" class="form-control br" formControlName="username" value="" [ngClass]="{ 'is-invalid': submitted && loginForm.get('username').errors }" />
+                                <div *ngIf="submitted && loginForm.get('username').errors " class="invalid-feedback">
+                                    <div *ngIf="loginForm.get('username').errors.required ">User ID cannot be Empty.</div>
+                                    <div *ngIf="loginForm.get('username').errors.pattern ">Do not use special character (@!#$%^&*()).</div>
+                                    <div *ngIf="loginForm.get('username').errors.maxlength || loginForm.get('username').errors.minlength">
+                                        Length should be 12 digit.</div>
+                                </div>
+                            </div>
+                            <div class="form-group mb-4">
+                                <label class="select-label">Password</label>
+                                <input type="password" class="form-control br" (input)="enterData()" formControlName="password" value="" [ngClass]="{ 'is-invalid': submitted && loginForm.get('password').errors }" />
+                                <div *ngIf="submitted && loginForm.get('password').errors " class="invalid-feedback">
+                                    <div *ngIf="loginForm.get('password').errors.required ">Password cannot be Empty.</div>
+                                    <div *ngIf="loginForm.get('password').errors.pattern ">Do not use this character (!#$%^&*()).</div>
+                                    <div *ngIf="loginForm.get('password').errors.maxlength || loginForm.get('password').errors.minlength">
+                                        Length should be 12 digit.</div>
+                                </div>
+
+                            </div>
+                            <div class="form-group  mb-4 text-center">
+                                <input type="submit" class="btn btnSubmit bg-color text-white btn-block" value="Login" />
+                            </div>
+                            <div class="form-group text-center">
+                                <a routerLink="./forget-password" class="ForgetPwd text-color ">Forgot
+                                        Password?</a>
+                            </div>
+                        </form>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> -->

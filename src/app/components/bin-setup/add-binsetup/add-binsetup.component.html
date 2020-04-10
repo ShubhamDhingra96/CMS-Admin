@@ -1,0 +1,236 @@
+
+        <div class="container pl-30 pr-30">
+            <h2 class="">Bin Setup-Add</h2>
+            <div class="dash-line"></div>
+            <p class="text-right pt-3"><span class="red">*</span> All Fields are mandatory</p>
+            <div class="shadow1 mt-5 pt-4 pb-5 pl-30 pr-30">
+                <h5 class="text-color pt-2">Bin Details</h5>
+                <hr>
+                <form [formGroup]="binSetupData" (ngSubmit)="submitBinData()">
+                    <div class="row mb-3 mt-4">
+                        <div class="col-md-2 col-sm-12">
+                            <div class="">
+                                <label class="select-label1">BIN <span style="color: red;">*</span></label>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-12">
+                            <div class="">
+                                <input type="text" class="form-control br" name="bin" (input)="isInput()" maxlength="6" formControlName="bin" [(ngModel)]="binData.cmsBinNumber" [ngClass]="{ 'is-invalid': submitted && f.bin.errors }" />
+                                <div *ngIf="submitted && f.bin.errors" class="invalid-feedback">
+                                    <div *ngIf="f.bin.errors.required">Bin Number is required.</div>
+                                    <div *ngIf="binSetupData.get('bin').errors.pattern ">Invalid BIN Code</div>
+                                    <div *ngIf="binSetupData.get('bin').errors.pattern ">Do not use special character (@!#$%^&*()).</div>
+                                </div>
+                                <div style="color:red;" *ngIf="isExistGroup">
+                                    BIN already Exist.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-sm-12">
+                            <div class="">
+                                <label class="select-label1">BIN Description <span style="color: red;">*</span></label>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-12">
+                            <div class="">
+                                <input type="text" class="form-control br" maxlength="60" formControlName="binDescription" [(ngModel)]="binData.cmsBinDiscription" [ngClass]="{ 'is-invalid': submitted && f.binDescription.errors }" />
+                                <div *ngIf="submitted && f.binDescription.errors" class="invalid-feedback">
+                                    <div *ngIf="f.binDescription.errors.required">Bin Description is required.</div>
+                                    <div *ngIf="binSetupData.get('binDescription').errors.pattern ">Do not use special character (@!#$%^&*()).</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-2 col-sm-12">
+                            <div class="">
+                                <label class="select-label1">BIN Currency <span style="color: red;">*</span></label>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-12">
+                            <div class="">
+                                <select class="form-control br" formControlName="binCurrency" (change)="getCurrencyDec()" [ngClass]="{ 'is-invalid': submitted && f.binCurrency.errors }">
+                                        <option value="">Select</option>
+                                        <option *ngFor="let currency of binCurrency" value="{{currency.cmsBinCurrency}}">{{currency.cmsBinCurrency}}</option>
+                                    </select>
+                                <div *ngIf="submitted && binSetupData.get('binCurrency').errors" class="invalid-feedback">
+                                    <div *ngIf="binSetupData.get('binCurrency').errors.required">Please select bin currency.</div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-sm-12">
+                            <div class="">
+                                <label class="select-label1">Currency Description</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-12">
+                            <div class="">
+                                <input type="text" class="form-control br" formControlName="currencyDescription" readonly [(ngModel)]="binData.cmsBinCurrencyDesc" [ngClass]="{ 'is-invalid': submitted && binSetupData.get('currencyDescription').errors }" />
+                                <div *ngIf="submitted && binSetupData.get('currencyDescription').errors" class="invalid-feedback">
+                                    <div *ngIf="binSetupData.get('currencyDescription').errors.required">Currency description is required.</div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-2 col-sm-12">
+                            <div class="">
+                                <label class="select-label1">Settlement Currency <span style="color: red;">*</span></label>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-12">
+                            <div class="">
+                                <select class="form-control br" formControlName="settlementCurrency" (change)="getSettlementCurrencyDec()" [ngClass]="{ 'is-invalid': submitted && binSetupData.get('settlementCurrency').errors }">
+                                        <option value="">Select</option>
+                                        <option *ngFor="let currency of binCurrency" value="{{currency.cmsBinCurrency}}">{{currency.cmsBinCurrency}}</option>
+                                    </select>
+                                <div *ngIf="submitted && binSetupData.get('settlementCurrency').errors" class="invalid-feedback">
+                                    <div *ngIf="binSetupData.get('settlementCurrency').errors.required">Please Select Settlement Currency</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-sm-12">
+                            <div class="">
+                                <label class="select-label1">Settlement Currency Description</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-12">
+                            <div class="">
+                                <input type="text" class="form-control br" formControlName="settlementCurrencyDesc" readonly [(ngModel)]="binData.cmsSettlementCurrencyDesc" [ngClass]="{ 'is-invalid': submitted && binSetupData.get('settlementCurrencyDesc').errors }" />
+
+                                <div *ngIf="submitted && binSetupData.get('settlementCurrencyDesc').errors" class="invalid-feedback">
+                                    <div *ngIf="binSetupData.get('settlementCurrencyDesc').errors.required">Settlement Currency description is required.</div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-2 col-sm-12">
+                            <div class="">
+                                <label class="select-label1">BIN Type <span style="color: red;">*</span></label>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-12">
+                            <div class="">
+                                <select class="form-control br" formControlName="binType" [ngClass]="{ 'is-invalid': submitted && binSetupData.get('binType').errors }">
+                                        <option value="">Select</option>
+                                        <option>CONTACTLESS</option>
+                                        <option>MAGNETIC STRIPE</option>
+                                        <option>DUAL INTERFACE</option>
+                                    </select>
+                                <div *ngIf="submitted && binSetupData.get('binType').errors" class="invalid-feedback">
+                                    <div *ngIf="binSetupData.get('binType').errors.required">Please Select Bin Type</div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-sm-12">
+                            <div class="">
+                                <label class="select-label1">BIN Digits <span style="color: red;">*</span></label>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-12">
+                            <div class="">
+                                <select class="form-control br" formControlName="binDigit" [ngClass]="{ 'is-invalid': submitted && binSetupData.get('binDigit').errors }">
+                                        <option value="">Select</option>
+                                        <option>15</option>
+                                        <option>16</option>
+                                        <option>19</option>
+                                    </select>
+                                <div *ngIf="submitted && binSetupData.get('binDigit').errors" class="invalid-feedback">
+                                    <div *ngIf="binSetupData.get('binDigit').errors.required">Please Select Bin Digit</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-2 col-sm-12">
+                            <div class="">
+                                <label class="select-label1">BIN Issues <span style="color: red;">*</span></label>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-12">
+                            <div class="">
+                                <select class="form-control br" formControlName="binIssue" [ngClass]="{ 'is-invalid': submitted && binSetupData.get('binIssue').errors }">
+                                        <option value="">Select</option>
+                                        <option value="Master">MASTER</option>
+                                        <option value="Rupay">RUPAY</option>
+                                        <option value="Amex">AMEX</option>
+                                        <option value="Visa">VISA</option>
+                                    </select>
+                                <div *ngIf="submitted && binSetupData.get('binIssue').errors" class="invalid-feedback">
+                                    <div *ngIf="binSetupData.get('binIssue').errors.required">Please Select Bin Issues</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-sm-12">
+                            <div class="">
+                                <label class="select-label1">Check Parity <span style="color: red;">*</span></label>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-12">
+                            <div class="">
+                                <select class="form-control br" formControlName="checkPerity" [ngClass]="{ 'is-invalid': submitted && binSetupData.get('checkPerity').errors }">
+                                        <option value="">Select</option>
+                                        <option value="Even">EVEN</option>
+                                        <option value="Odd">ODD</option>
+                                    </select>
+                                <div *ngIf="submitted && binSetupData.get('checkPerity').errors" class="invalid-feedback">
+                                    <div *ngIf="binSetupData.get('checkPerity').errors.required">Please Select Parity</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 text-center mt-5">
+                        <input type="submit" class="btn btn1 shadow1 btnSubmit bg-color text-white" value="Cancel" />
+                        <input type="submit" class="btn btn1 shadow1 btnSubmit bg-color text-white ml-2" value="Submit" />
+                    </div>
+                </form>
+            </div>
+        </div>
+
+
+
+
+
+    <div class="modal" id="success" role="dialog">
+        <div class="modal-dialog modal-dialog-centered">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header bg-info">
+                    <h4 class="text-light">Success</h4>
+                    <button type="button" class="close" (click)="close()" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <h5>{{success}}</h5>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-info" data-dismiss="modal" (click)="close()">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="modal" id="error" role="dialog">
+        <div class="modal-dialog modal-dialog-centered">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header bg-danger">
+                    <h4 class="text-light">Error</h4>
+                    <button type="button" class="close" (click)="close()" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <h5>{{success}}</h5>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="close()">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>

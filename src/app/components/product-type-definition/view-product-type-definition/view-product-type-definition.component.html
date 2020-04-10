@@ -1,0 +1,26 @@
+<div class="container pl-30 pr-30">
+    <h2 class="">Product Type Definition- View</h2>
+    <div class="dash-line"></div>
+    <h5 class="text-color mt-4 mb-4">Product Type Definition Details</h5>
+    <hr>
+    <div class="table-responsive mt-4">
+        <table class="table table-striped table-bordered table-hover text-center">
+            <thead class="thead-dark bg-color text-white">
+                <tr>
+                    <th scope="col">Select</th>
+                    <th scope="col">Product Code</th>
+                    <th scope="col">Product Name</th>
+                    <th scope="col">Program</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor = "let details of productGroup">
+                    <td>{{details.productCode}}</td>
+                    <td>{{details.productName}}</td>
+                    <td>{{details.programType}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>

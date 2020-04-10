@@ -1,0 +1,170 @@
+<div class="container pl-30 pr-30" *ngIf="enterData">
+  <h2 class="">Transaction Grouping - Add</h2>
+  <div class="dash-line"></div>
+  <p class="text-right pt-3"><span class="red">*</span> All Fields are mandatory</p>
+  <div class="shadow1 mt-5 pt-4 pb-5 pl-30 pr-30" >
+    <h5 class="text-color pt-2">Transaction Group</h5>
+    <hr>
+    <form [formGroup]="transactionGroup" (ngSubmit)="confirmTransaction()">
+      <div class="row mb-3 mt-4 pt-2">
+        <div class="col-md-2 col-sm-12">
+          <div class="">
+            <label class="select-label1">Group Txn Code <span class="red">*</span></label>
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-12">
+          <div class="">
+            <input type="text" formControlName='groupTransactionCode' maxlength="6" class="form-control br" [ngClass]="{ 'is-invalid':submitted && transactionGroup.get('groupTransactionCode').errors}"/>
+            <div *ngIf="submitted && transactionGroup.get('groupTransactionCode').errors " class="invalid-feedback ">
+              <div *ngIf="transactionGroup.get('groupTransactionCode').errors.required ">Group transaction Code should not be empty.</div>
+              <div *ngIf="transactionGroup.get('groupTransactionCode').errors.pattern ">Do not use special character (@!#$%^&*()).</div>
+              <div *ngIf="transactionGroup.get('groupTransactionCode').errors.maxlength || transactionGroup.get('groupTransactionCode').errors.minlength">Length must be between 6 char.</div>
+          </div>
+          <div style="color:red;" *ngIf="isExistGroup">
+           Group Transaction Code Already Exist.
+        </div>
+          </div>
+        </div>
+        <div class="col-md-2 col-sm-12">
+          <div class="">
+            <label class="select-label1">Group Txn Name <span class="red">*</span></label>
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-12">
+          <div class="">
+            <input type="text" formControlName='groupTransactionName' class="form-control br" [ngClass]="{ 'is-invalid':submitted && transactionGroup.get('groupTransactionName').errors}" />
+            <div *ngIf="submitted && transactionGroup.get('groupTransactionName').errors " class="invalid-feedback ">
+              <div *ngIf="transactionGroup.get('groupTransactionName').errors.required ">Group transaction name should not be empty.</div>
+              <div *ngIf="transactionGroup.get('groupTransactionName').errors.pattern ">Do not use special character (@!#$%^&*()).</div>
+          </div>
+          </div>
+        </div>
+      </div>
+      <div class="row mb-3">
+        <div class="col-md-2 col-sm-12">
+          <div class="">
+            <label class="select-label1">Transactions <span class="red">*</span></label>
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-12">
+          <div class="">
+            <select class="form-control br" formControlName="transactions" [ngClass]="{ 'is-invalid':submitted && transactionGroup.get('transactions').errors}">
+              <option value="">Select</option>
+              <option *ngFor="let dataTrx of transactionData">{{dataTrx.transactions}}</option>
+            </select>
+            <div *ngIf="submitted && transactionGroup.get('transactions').errors" class="invalid-feedback">
+              <div *ngIf="transactionGroup.get('transactions').errors.required">Please Select Transaction</div>
+          </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="col-md-12 text-center mt-5 mb-4">
+        <input type="button" class="btn btn1 shadow1 btnSubmit bg-color text-white" value="Add" (click)="add()"/>
+      </div>
+      <div class="table-responsive">
+        <table class="table table-striped table-bordered table-hover text-center">
+          <thead class="thead-dark bg-color text-white">
+            <tr>
+              <th scope="col">Group Txn Code</th>
+              <th scope="col">Group Txn Name</th>
+              <th scope="col">Transaction</th>
+            </tr>
+          </thead>
+          <tbody formArrayName='transactiongroupTable' *ngFor="let r of transactionGroup.get('transactiongroupTable').controls; index as i ">
+            <tr [formGroupName]="i">
+                <td><input type="" formControlName='groupTransactionCode' style="border: none;" readonly></td>
+                <td><input type="" formControlName='groupTransactionName' style="border: none;" readonly></td>
+                <td><input type="" formControlName='transactions' style="border: none;" readonly></td>
+                <td><input type="submit" value="remove" (click)="remove(i)"></td>
+            </tr>
+        </tbody>
+        </table>
+      </div> 
+
+      <div class="col-md-12 text-center mt-5">
+        <input type="button" class="btn btn1 shadow1 btnSubmit bg-color text-white" value="Cancel" />
+        <input type="submit" class="btn btn1 shadow1 btnSubmit bg-color text-white ml-2" value="Submit" />
+      </div>
+
+
+    </form>
+  </div>
+</div>
+<div class="container pl-30 pr-30" *ngIf="confirmTrans">
+  <h2 class="">Transaction Grouping - Confirmation</h2>
+  <div class="dash-line"></div>
+  <div class="shadow1 mt-5 pt-4 pb-5 pl-30 pr-30" >
+    <h5 class="text-color pt-2">Transaction Group</h5>
+    <hr>
+    <form>
+    <div >
+    <div class="table-responsive" >
+      <table class="table table-striped table-bordered table-hover text-center">
+        <thead class="thead-dark bg-color text-white">
+          <tr>
+            
+            <th scope="col">Group Txn Code</th>
+            <th scope="col">Group Txn Name</th>
+            <th scope="col">Transaction</th>
+          </tr>
+        </thead>
+        <tbody *ngFor="let data of confirmForm.transactiongroupTable; index as i">
+          <tr>
+            <td>{{data.groupTransactionCode}}</td>
+            <td>{{data.groupTransactionName}}</td>
+            <td>{{data.transactions}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class=" row col-md-12 text-center mt-5">
+    <input type="button" class="btn btn1 shadow1 btnSubmit bg-color text-white" value="Cancel" (click)="cancel()" />
+    <input type="submit" class="btn btn1 shadow1 btnSubmit bg-color text-white ml-2" value="Confirm" (click)="save()" />
+</div>
+
+  </form>
+  </div>
+</div>
+
+
+
+<div class="modal" id="success" role="dialog">
+  <div class="modal-dialog modal-dialog-centered">
+      <!-- Modal content-->
+      <div class="modal-content">
+          <div class="modal-header bg-info">
+              <h4 class="text-light">Success</h4>
+              <button type="button" class="close" (click)="close()" data-dismiss="modal">&times;</button>
+          </div>
+          <div class="modal-body">
+              <h5>{{success}}</h5>
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-info" data-dismiss="modal" (click)="close()">Close</button>
+          </div>
+      </div>
+
+  </div>
+</div>
+
+<div class="modal" id="error" role="dialog">
+  <div class="modal-dialog modal-dialog-centered">
+      <!-- Modal content-->
+      <div class="modal-content">
+          <div class="modal-header bg-danger">
+              <h4 class="text-light">Error</h4>
+              <button type="button" class="close" (click)="close()" data-dismiss="modal">&times;</button>
+          </div>
+          <div class="modal-body">
+              <h5>{{success}}</h5>
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="close()">Close</button>
+          </div>
+      </div>
+
+  </div>
+</div>

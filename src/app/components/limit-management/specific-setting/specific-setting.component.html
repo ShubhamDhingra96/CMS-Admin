@@ -1,0 +1,445 @@
+<div class="wrapper">
+    <!-- Page Content  -->
+    <div id="content" class="bg-light  right_col">
+        <div class="container pl-30 pr-30" *ngIf="enterData">
+            <h2 class="">Limit Management - Specific Settings</h2>
+            <div class="dash-line"></div>
+            <p class="text-right pt-3"><span class="red">*</span> All Fields are mandatory</p>
+            <div class="shadow1 mt-4 pt-4 pb-5 pl-30 pr-30">
+                <h5 class="text-color pt-2">Limit Definition</h5>
+                <hr>
+                <form [formGroup]="spscificLimitManagement" (ngSubmit)="confirmLimit()">
+                    <div class="row mb-3 mt-4">
+                        <div class="col-md-2 col-sm-12">
+                            <div class="">
+                                <label class="select-label1">Limit Code <span class="red">*</span></label>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-12">
+                            <div class="">
+                                <input type="text" formControlName='limitCode' name="limitCode" class="form-control br" (input)="isInput()" [ngClass]="{ 'is-invalid':submitted && spscificLimitManagement.get('limitCode').errors}" />
+                                <div *ngIf="submitted && spscificLimitManagement.get('limitCode').errors " class="invalid-feedback ">
+                                    <div *ngIf="spscificLimitManagement.get('limitCode').errors.required ">Limit Code should not be empty.</div>
+                                    <div *ngIf="spscificLimitManagement.get('limitCode').errors.pattern ">Do not use special character (@!#$%^&*()).</div>
+                                    <div *ngIf="spscificLimitManagement.get('limitCode').errors.maxlength || spscificLimitManagement.get('limitCode').errors.minlength">Length must be between 6 char.</div>
+                                </div>
+                                <div *ngIf="isgroupCodeExist" style="color: red">
+                                    Limit code already exist.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-sm-12">
+                            <div class="">
+                                <label class="select-label1">Limit Name <span class="red">*</span></label>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-12">
+                            <div class="">
+                                <input type="text" formControlName='limitName' class="form-control br" [ngClass]="{ 'is-invalid':submitted && spscificLimitManagement.get('limitName').errors}" />
+                                <div *ngIf="submitted && spscificLimitManagement.get('limitName').errors " class="invalid-feedback ">
+                                    <div *ngIf="spscificLimitManagement.get('limitName').errors.required ">Group Name should not be empty.</div>
+                                    <div *ngIf="spscificLimitManagement.get('limitName').errors.pattern ">Do not use special character (@!#$%^&*()).</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <h5 class="text-color pt-2 mt-5">Transaction Limit Settings</h5>
+                    <hr>
+                    <div class="row mb-3 mt-4 pt-2">
+                        <div class="col-md-2 col-sm-12">
+                            <div class="">
+                                <label class="select-label1">Country Code <span class="red">*</span></label>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-12">
+                            <div class="">
+                                <select class="form-control br" formControlName='countryCode' (change)="selectCountryCode()" [ngClass]="{ 'is-invalid':submitted && spscificLimitManagement.get('countryCode').errors}">
+                                    <option value="">Select</option>
+                                    <option *ngFor="let data of countryCode" value="{{data.groupCode}}">{{data.groupCode}}</option>
+                                </select>
+                                <div *ngIf="submitted && spscificLimitManagement.get('countryCode').errors " class="invalid-feedback ">
+                                    <div *ngIf="spscificLimitManagement.get('countryCode').errors.required ">Country Code should not be empty.</div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-sm-12">
+                            <div class="">
+                                <label class="select-label1">Country Name <span class="red">*</span></label>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-12">
+                            <div class="">
+                                <input type="text" formControlName='countryName' class="form-control br" readonly />
+                                <div *ngIf="submitted && spscificLimitManagement.get('countryName').errors " class="invalid-feedback ">
+                                    <div *ngIf="spscificLimitManagement.get('countryName').errors.required ">Country Name should not be empty.</div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-2 col-sm-12">
+                            <div class="">
+                                <label class="select-label1">Acquiring Network <span class="red">*</span></label>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-12">
+                            <div class="">
+                                <select class="form-control br" formControlName='acquiringNetwork' (change)="selectAcquiredNetwork()" [ngClass]="{ 'is-invalid':submitted && spscificLimitManagement.get('acquiringNetwork').errors}">
+                                    <option value="">Select</option>
+                                    <option *ngFor="let data of acquiredGrp" value="{{data.groupCode}}">{{data.groupCode}}</option>
+                                </select>
+                                <div *ngIf="submitted && spscificLimitManagement.get('acquiringNetwork').errors " class="invalid-feedback ">
+                                    <div *ngIf="spscificLimitManagement.get('acquiringNetwork').errors.required ">Acquire Network should not be empty.</div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-sm-12">
+                            <div class="">
+                                <label class="select-label1">Acquiring Network Name<span class="red">*</span></label>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-12">
+                            <div class="">
+                                <input type="text" class="form-control br" formControlName='acquiringNetworkName' readonly />
+                                <div *ngIf="submitted && spscificLimitManagement.get('acquiringNetworkName').errors " class="invalid-feedback ">
+                                    <div *ngIf="spscificLimitManagement.get('acquiringNetworkName').errors.required ">Acquire Network Name should not be empty.</div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-2 col-sm-12">
+                            <div class="">
+                                <label class="select-label1">Delivery Channels <span class="red">*</span></label>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-12">
+                            <div class="">
+                                <select class="form-control br" formControlName='deliveryChannels' (change)="selectDeliveryChannel()" [ngClass]="{ 'is-invalid':submitted && spscificLimitManagement.get('deliveryChannels').errors}">
+                                    <option value="">Select</option>
+                                    <option *ngFor="let data of deliveryGrp" value="{{data.groupCode}}">{{data.groupCode}}</option>
+                                </select>
+                                <div *ngIf="submitted && spscificLimitManagement.get('deliveryChannels').errors " class="invalid-feedback ">
+                                    <div *ngIf="spscificLimitManagement.get('deliveryChannels').errors.required ">Delivery Channels should not be empty.</div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-sm-12">
+                            <div class="">
+                                <label class="select-label1">Delivery Channel Name<span class="red">*</span></label>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-12">
+                            <div class="">
+                                <input type="text" class="form-control br" formControlName='deliveryChannelName' readonly/>
+                                <div *ngIf="submitted && spscificLimitManagement.get('deliveryChannelName').errors " class="invalid-feedback ">
+                                    <div *ngIf="spscificLimitManagement.get('deliveryChannelName').errors.required ">Delivery channel Name should not be empty.</div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <h5 class="text-color pt-2 mt-5">Specific Limit Settings</h5>
+                    <hr>
+                    <div class="table-responsive mt-5">
+                        <table class="table table-striped table-bordered table-hover text-center">
+                            <thead class="thead-dark bg-color text-white">
+                                <tr>
+                                    <th scope="col">Transaction</th>
+                                    <th scope="col">Frequency</th>
+                                    <th scope="col">Level Check</th>
+                                    <th scope="col">Maximum Count</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <select class="form-control br" formControlName='transaction' [ngClass]="{ 'is-invalid':submitted && spscificLimitManagement.get('transaction').errors}">
+                                <option value="">Select</option>
+                                <option *ngFor="let dataTrx of transactionData">{{dataTrx.transaction}}</option>
+                              </select>
+                                        <div *ngIf="submitted && spscificLimitManagement.get('transaction').errors " class="invalid-feedback ">
+                                            <div *ngIf="spscificLimitManagement.get('transaction').errors.required ">Transaction should not be empty.</div>
+
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <select class="form-control br" formControlName='frequency' [ngClass]="{ 'is-invalid':submitted && spscificLimitManagement.get('frequency').errors}">
+                                                    <option value="">Select</option>
+                                                    <option value="Per Txn">Per Txn</option>
+                                                    <option value="Daily">Daily</option>
+                                                    <option vakue="Weekly">Weekly</option>
+                                                    <option vakue="Monthly">Monthly</option>
+                                                    <option vakue="Yearly">Yearly</option>
+                                                    <option vakue="Life Time">Life Time</option>
+                                                </select>
+                                        <div *ngIf="submitted && spscificLimitManagement.get('frequency').errors " class="invalid-feedback ">
+                                            <div *ngIf="spscificLimitManagement.get('frequency').errors.required ">Frequency should not be empty.</div>
+
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <select class="form-control br" formControlName='levelCheck' [ngClass]="{ 'is-invalid':submitted && spscificLimitManagement.get('levelCheck').errors}"> 
+                                                    <option value="">Select</option>
+                                                    <option value="Account">Account</option>
+                                                    <option value="Card">Card</option>
+                                                    <option value="Customer">Customer</option>
+                                                </select>
+                                        <div *ngIf="submitted && spscificLimitManagement.get('levelCheck').errors " class="invalid-feedback ">
+                                            <div *ngIf="spscificLimitManagement.get('levelCheck').errors.required ">Level Chack should not be empty.</div>
+
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <select class="form-control br" formControlName='maxCount' [ngClass]="{ 'is-invalid':submitted && spscificLimitManagement.get('maxCount').errors}">
+                                                    <option value="">Select</option>
+                                                    <option value="all">ALL</option>
+                                                    <option value="atm">ATM</option>
+                                                    <option value="web">WEB</option>
+                                                    <option value="ivr">IVR</option>
+                                                </select>
+                                        <div *ngIf="submitted && spscificLimitManagement.get('maxCount').errors " class="invalid-feedback ">
+                                            <div *ngIf="spscificLimitManagement.get('maxCount').errors.required ">Max Count should not be empty.</div>
+
+                                        </div>
+                                    </td>
+                                </tr>
+
+
+
+
+
+
+                            </tbody>
+                        </table>
+                        <table class="table table-striped table-bordered table-hover text-center">
+                            <thead class="thead-dark bg-color text-white">
+                                <tr>
+                                    <th scope="col">Currency</th>
+                                    <th scope="col">Minimum Amount</th>
+                                    <th scope="col">Maximum Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <select class="form-control br" formControlName='currency' [ngClass]="{ 'is-invalid':submitted && spscificLimitManagement.get('currency').errors}">
+                                <option value="">Select</option>
+                                <option *ngFor="let currency of currencyData">{{currency.cmsBinCurrency}}</option>
+                            </select>
+                                        <div *ngIf="submitted && spscificLimitManagement.get('currency').errors " class="invalid-feedback ">
+                                            <div *ngIf="spscificLimitManagement.get('currency').errors.required ">Currency should not be empty.</div>
+
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <select class="form-control br" formControlName='minAmt' [ngClass]="{ 'is-invalid':submitted && spscificLimitManagement.get('minAmt').errors}">
+                                    <option value="">Select</option>
+                                    <option value="all">ALL</option>
+                                    <option value="atm">ATM</option>
+                                    <option value="web">WEB</option>
+                                    <option value="ivr">IVR</option>
+                            </select>
+                                        <div *ngIf="submitted && spscificLimitManagement.get('minAmt').errors " class="invalid-feedback ">
+                                            <div *ngIf="spscificLimitManagement.get('minAmt').errors.required ">Minimum Amount should not be empty.</div>
+
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <select class="form-control br" formControlName='maxAmt' [ngClass]="{ 'is-invalid':submitted && spscificLimitManagement.get('maxAmt').errors}">
+                                    <option value="">Select</option>
+                                    <option value="all">ALL</option>
+                                    <option value="atm">ATM</option>
+                                    <option value="web">WEB</option>
+                                    <option value="ivr">IVR</option>
+                                </select>
+                                        <div *ngIf="submitted && spscificLimitManagement.get('maxAmt').errors " class="invalid-feedback ">
+                                            <div *ngIf="spscificLimitManagement.get('maxAmt').errors.required ">Maximum amount should not be empty.</div>
+
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-md-12 text-center mt-5">
+                        <input type="button" class="btn btn1 shadow1 btnSubmit bg-color text-white" value="Add" (click)="add()" />
+                    </div>
+
+                    <div class="table-responsive mt-5">
+                        <table class="table table-striped table-bordered table-hover text-center">
+                            <thead class="thead-dark bg-color text-white">
+                                <tr>
+                                    <th scope="col">Transaction</th>
+                                    <th scope="col">Frequency</th>
+                                    <th scope="col">Level Check</th>
+                                    <th scope="col">Maximum Count</th>
+                                    <th scope="col">Currency</th>
+                                    <th scope="col">Minimum Amount</th>
+                                    <th scope="col">Maximum Amount</th>
+                                    <th>Remove</th>
+                                </tr>
+                            </thead>
+                            <tbody formArrayName='specificTable' id="body" *ngFor="let r of spscificLimitManagement.get('specificTable').controls; index as i ">
+                                <tr [formGroupName]="i">
+                                    <td style="padding :10px; margin:0;"><input type="text" class="text-center" formControlName='transaction' style="border: none; padding :0; margin:0;background-color: transparent;" readonly></td>
+                                    <td style="padding :10px; margin:0;"><input type="text" class="text-center" formControlName='frequency' style="border: none; padding :0; margin:0;background-color: transparent;" readonly></td>
+                                    <td style="padding :10px; margin:0;"><input type="text" class="text-center" formControlName='levelCheck' style="border: none; padding :0; margin:0;background-color: transparent;" readonly></td>
+                                    <td style="padding :10px; margin:0;"><input type="text" class="text-center" formControlName='maxCount' style="border: none; padding :0; margin:0;background-color: transparent;" readonly></td>
+                                    <td style="padding :10px; margin:0;"><input type="text" class="text-center" formControlName='currency' style="border: none; padding :0; margin:0;background-color: transparent;" readonly></td>
+                                    <td style="padding :10px; margin:0;"><input type="text" class="text-center" formControlName='minAmt' style="border: none; padding :0; margin:0;background-color: transparent;" readonly></td>
+                                    <td style="padding :10px; margin:0;"><input type="text" class="text-center" formControlName='maxAmt' style="border: none; padding :0; margin:0;background-color: transparent;" readonly></td>
+                                    <td (appOnLoadTr)="load()"><input type="button" value="remove" (click)="remove(i)"></td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-md-12 text-center mt-5">
+                        <input type="submit" class="btn btn1 shadow1 btnSubmit bg-color text-white" value="Cancel" />
+                        <input type="submit" class="btn btn1 shadow1 btnSubmit bg-color text-white ml-2" value="Submit" />
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!-- Specific setting confirm page -->
+        <div class="container pl-30 pr-30" *ngIf="confirm">
+            <h2 class="">View Specific Settings-Confirm</h2>
+            <div class="dash-line"></div>
+
+            <div class="shadow1 mt-5 pt-4 pb-5 pl-30 pr-30">
+                <h5 class="text-color pt-2">Limit Definition</h5>
+                <hr>
+                <form>
+                    <div *ngFor="let data of confirmForm.specificTable; index as i">
+                        <div class="table-responsive">
+                            <table class="table table-borderless">
+                                <tr>
+                                    <td class="font-weight-bold">Limit Code</td>
+                                    <td>{{data.limitCode}}</td>
+                                    <td class="font-weight-bold">Limit Name</td>
+                                    <td>{{data.limitName}}</td>
+                                </tr>
+                            </table>
+                        </div>
+                        <h5 class="text-color pt-2">Transaction Limit Settings</h5>
+                        <hr>
+                        <div class="table-responsive">
+                            <table class="table table-borderless">
+                                <tr>
+                                    <td class="font-weight-bold">Country Code</td>
+                                    <td>{{data.countryCode}}</td>
+                                    <td class="font-weight-bold">Country Name</td>
+                                    <td>{{data.countryCode}}</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-weight-bold">Acquiring Network</td>
+                                    <td>{{data.acquiringNetwork}}</td>
+                                    <td class="font-weight-bold">Acquiring Network Name</td>
+                                    <td>{{data.acquiringNetwork}}</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-weight-bold">Delivery Channels</td>
+                                    <td>{{data.deliveryChannels}}</td>
+                                    <td class="font-weight-bold">Delivery Channel Name</td>
+                                    <td>{{data.deliveryChannels}}</td>
+                                </tr>
+                            </table>
+                        </div>
+
+
+
+                        <div class="table-responsive mt-5">
+                            <table class="table table-striped table-bordered table-hover text-center">
+                                <thead class="thead-dark bg-color text-white">
+                                    <tr>
+                                        <th scope="col">Transaction</th>
+                                        <th scope="col">Frequency</th>
+                                        <th scope="col">Level Check</th>
+                                        <th scope="col">Maximum Count</th>
+                                        <th scope="col">Currency</th>
+                                        <th scope="col">Minimum Amount</th>
+                                        <th scope="col">Maximum Amount</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>{{data.transaction}}</td>
+                                        <td>{{data.frequency}}</td>
+                                        <td>{{data.levelCheck}}</td>
+                                        <td>{{data.maxCount}}</td>
+                                        <td>{{data.currency}}</td>
+                                        <td>{{data.minAmt}}</td>
+                                        <td>{{data.maxAmt}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class=" row col-md-12 text-center mt-5">
+                        <input type="button" class="btn btn1 shadow1 btnSubmit bg-color text-white" value="Cancel" (click)="cancel()" />
+                        <input type="submit" class="btn btn1 shadow1 btnSubmit bg-color text-white ml-2" value="Confirm" (click)="save()" />
+                    </div>
+
+                </form>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+
+<div class="modal" id="success" role="dialog">
+    <div class="modal-dialog modal-dialog-centered">
+
+        <!-------------------------------------------------------->
+        <!-------------------------------------------------------->
+        <!-------------------------------------------------------->
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header bg-info">
+                <h3 class="text-light">Success</h3>
+                <button type="button" class="close" (click)="close()" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <h4>{{success}}</h4>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-info" data-dismiss="modal" (click)="close()">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="modal" id="error" role="dialog">
+    <div class="modal-dialog modal-dialog-centered">
+
+        <!-------------------------------------------------------->
+        <!-------------------------------------------------------->
+        <!-------------------------------------------------------->
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header bg-danger">
+                <h3 class="text-light">Error</h3>
+                <button type="button" class="close" (click)="close()" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <h4>{{success}}</h4>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="close()">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>

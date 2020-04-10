@@ -1,0 +1,704 @@
+
+    <div class="container pl-30 pr-30" *ngIf="enterData">
+      <h2 class="">Fees Management - Specific Settings</h2>
+      <div class="dash-line"></div>
+      <p class="text-right pt-3"><span class="red">*</span> All Fields are mandatory</p>
+      <div class="shadow1 mt-4 pt-4 pb-5 pl-30 pr-30">
+        <h5 class="text-color pt-2">Create Fees Group</h5>
+        <hr>
+        <form [formGroup]="feesSpecificSettingsComponent" (ngSubmit)="confirmFeeDetails()">
+          <div class="row mb-3 mt-4">
+            <div class="col-md-2 col-sm-12">
+              <div class="">
+                <label class="select-label1">Fees Code <span class="red">*</span></label>
+              </div>
+            </div>
+            <div class="col-md-4 col-sm-12">
+                <div class="">
+                  <input type="text" class="form-control br" formControlName='feeCode' name="feeCode" (input)="isInput()" maxlength="6"
+                  [ngClass]="{ 'is-invalid':submitted && feesSpecificSettingsComponent.get('feeCode').errors}"/>
+                  <div *ngIf="submitted && feesSpecificSettingsComponent.get('feeCode').errors " class="invalid-feedback ">
+                      <div *ngIf="feesSpecificSettingsComponent.get('feeCode').errors.required ">Fee Code should not be empty.</div>
+                      <div *ngIf="feesSpecificSettingsComponent.get('feeCode').errors.pattern ">Do not use special character (@!#$%^&*()).</div>
+                      <div *ngIf="feesSpecificSettingsComponent.get('feeCode').errors.maxlength || feesSpecificSettingsComponent.get('feeCode').errors.minlength">Length must be between 6 char.</div>
+                  </div>
+                  <div *ngIf="isfeeCodeExist" style="color: red">
+                    Fee code already exist.
+                  </div>
+                </div>
+              </div>
+            <div class="col-md-2 col-sm-12">
+              <div class="">
+                <label class="select-label1">Fees Description <span class="red">*</span></label>
+              </div>
+            </div>
+            <div class="col-md-4 col-sm-12">
+              <div class="">
+                <input type="text" class="form-control br" formControlName='feeDescription' maxlength="30"
+                 [ngClass]="{'is-invalid':submitted && feesSpecificSettingsComponent.get('feeDescription').errors}"/>
+                <div *ngIf="submitted && feesSpecificSettingsComponent.get('feeDescription').errors " class="invalid-feedback ">
+                    <div *ngIf="feesSpecificSettingsComponent.get('feeDescription').errors.required ">Fees Description should not be empty.</div>
+                    <div *ngIf="feesSpecificSettingsComponent.get('feeDescription').errors.pattern ">Do not use special character (@!#$%^&*()).</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <h5 class="text-color pt-2 mt-5">Specific Fees Settings</h5>
+          <hr>
+          <div class="row mb-3 mt-4">
+            <div class="col-md-2 col-sm-12">
+              <div class="">
+                <label class="select-label1">Country Code <span class="red">*</span></label>
+              </div>
+            </div>
+            <div class="col-md-4 col-sm-12">
+              <div class="">
+                <select class="form-control br" formControlName='countryCode' (change)="selectCountrygroup()" [ngClass]="{'is-invalid':submitted && feesSpecificSettingsComponent.get('countryCode').errors}">
+                  <option value="">Select</option>
+                  <option *ngFor="let data of countryGroup" value="{{data.groupId}}">{{data.groupCode}}</option>
+                  
+                </select>
+                <div *ngIf="submitted && feesSpecificSettingsComponent.get('countryCode').errors " class="invalid-feedback ">
+                  <div *ngIf="feesSpecificSettingsComponent.get('countryCode').errors.required ">Country Code should not be empty.</div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-2 col-sm-12">
+              <div class="">
+                <label class="select-label1">Country Name </label>
+              </div>
+            </div>
+            <div class="col-md-4 col-sm-12">
+              <div class="">
+                <input type="text" class="form-control br" formControlName='countryName' readonly/>
+                
+              </div>
+            </div>
+          </div>
+          <div class="row mb-3">
+            <div class="col-md-2 col-sm-12">
+              <div class="">
+                <label class="select-label1">Acquiring Network <span class="red">*</span></label>
+              </div>
+            </div>
+            <div class="col-md-4 col-sm-12">
+              <div class="">
+                <select class="form-control br" formControlName='acquiringNetwork' (change)="selectAcquiringGroup()" [ngClass]="{ 'is-invalid':submitted && feesSpecificSettingsComponent.get('acquiringNetwork').errors}">                  
+                  <option value="">Select</option>
+                  <option *ngFor="let data of acquiringNetwork" value="{{data.groupCode}}">{{data.groupCode}}</option>
+                          
+                </select>
+                <div *ngIf="submitted && feesSpecificSettingsComponent.get('acquiringNetwork').errors " class="invalid-feedback ">
+                  <div *ngIf="feesSpecificSettingsComponent.get('acquiringNetwork').errors.required ">Acquiring Network should not be empty.</div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-2 col-sm-12">
+              <div class="">
+                <label class="select-label1">Acquiring Network Name </label>
+              </div>
+            </div>
+            <div class="col-md-4 col-sm-12">
+              <div class="">
+                <input class="form-control br" formControlName='acquiringNetworkName' readonly/> 
+              </div>
+             
+            </div>
+          </div>
+          <div class="row mb-3">
+            <div class="col-md-2 col-sm-12">
+              <div class="">
+                <label class="select-label1">Delivery Channels <span class="red">*</span></label>
+              </div>
+            </div>
+            <div class="col-md-4 col-sm-12">
+              <div class="">
+                <select class="form-control br" formControlName='deliveryChannels' (change)="selectDeliveryChannel()"
+                 [ngClass]="{ 'is-invalid':submitted && feesSpecificSettingsComponent.get('deliveryChannels').errors}">
+                  <option value="">Select</option>
+                  <option *ngFor="let data of deliveryChannels" value="{{data.groupCode}}">{{data.groupCode}}</option>            
+                </select>
+                <div *ngIf="submitted && feesSpecificSettingsComponent.get('deliveryChannels').errors " class="invalid-feedback ">
+                  <div *ngIf="feesSpecificSettingsComponent.get('deliveryChannels').errors.required ">Delivery Channels should not be empty.</div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-2 col-sm-12">
+              <div class="">
+                <label class="select-label1">Delivery Channel Name</label>
+              </div>
+            </div>
+            <div class="col-md-4 col-sm-12">
+              <div class="">
+                <input type="text" class="form-control br" formControlName='deliveryChannelName' readonly/>               
+              </div>
+            </div>
+          </div>
+          <div class="row mb-3">
+            <div class="col-md-2 col-sm-12">
+              <div class="">
+                <label class="select-label1">Merchant ID Group <span class="red">*</span></label>
+              </div>
+            </div>
+            <div class="col-md-4 col-sm-12">
+              <div class="">
+                <select class="form-control br" formControlName='merchantIdGroup' (change)="selectMerchantIdGroup()"
+                 [ngClass]="{ 'is-invalid':submitted && feesSpecificSettingsComponent.get('merchantIdGroup').errors}">
+                  <option value="">Select</option>
+                  <option value="ALL-ALL">ALL</option>
+                </select>
+                <div *ngIf="submitted && feesSpecificSettingsComponent.get('merchantIdGroup').errors " class="invalid-feedback ">
+                  <div *ngIf="feesSpecificSettingsComponent.get('merchantIdGroup').errors.required ">Merchant ID Group should not be empty.</div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-2 col-sm-12">
+              <div class="">
+                <label class="select-label1">Merchant ID Group Name </label>
+              </div>
+            </div>
+            <div class="col-md-4 col-sm-12">
+              <div class="">
+                <input type="text" class="form-control br" formControlName='merchantIdGroupName' readonly/>              
+              </div>
+            </div>
+          </div>
+          <div class="row mb-3">
+            <div class="col-md-2 col-sm-12">
+              <div class="">
+                <label class="select-label1">Transactions <span class="red">*</span></label>
+              </div>
+            </div>
+            <div class="col-md-4 col-sm-12">
+              <div class="">
+                <select class="form-control br" formControlName='transaction' [ngClass]="{ 'is-invalid':submitted && feesSpecificSettingsComponent.get('transaction').errors}">
+                  <option value="">Select</option>
+                  <option *ngFor="let dataTrx of transactionData">{{dataTrx.transaction}}</option>
+                </select>             
+                <div *ngIf="submitted && feesSpecificSettingsComponent.get('transaction').errors " class="invalid-feedback ">
+                  <div *ngIf="feesSpecificSettingsComponent.get('transaction').errors.required ">Transactions should not be empty.</div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-2 col-sm-12">
+              <div class="">
+                <label class="select-label1">Group Transactions <span class="red">*</span></label>
+              </div>
+            </div>
+            <div class="col-md-4 col-sm-12">
+              <div class="">
+                <select class="form-control br" formControlName='groupTransactions' [ngClass]="{ 'is-invalid':submitted && feesSpecificSettingsComponent.get('groupTransactions').errors}">
+                  <option value="">Select</option>
+                  <option *ngFor="let dataTrx of groupTransactionData">{{dataTrx.groupTransactions}}</option>
+                </select>
+                <div *ngIf="submitted && feesSpecificSettingsComponent.get('groupTransactions').errors " class="invalid-feedback ">
+                  <div *ngIf="feesSpecificSettingsComponent.get('groupTransactions').errors.required ">Group Transactions should not be empty.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row mb-3">
+            <div class="col-md-2 col-sm-12">
+              <div class="">
+                <label class="select-label1">Frequency <span class="red">*</span></label>
+              </div>
+            </div>
+            <div class="col-md-4 col-sm-12">
+              <div class="">
+                <select class="form-control br"  formControlName='frequency' [ngClass]="{ 'is-invalid':submitted && feesSpecificSettingsComponent.get('frequency').errors}">
+                  <option value="">Select</option>
+                  <option value="200-Per Txn">Per Txn</option>
+                  <option value="205-Daily">Daily</option>
+                  <option value="210-Weekly">Weekly</option>
+                  <option value="215-Monthly">Monthly</option>
+                  <option value="220-Yearly">Yearly</option>
+                  <option value="225-LifeTime">LifeTime</option>
+					
+                </select>
+                <div *ngIf="submitted && feesSpecificSettingsComponent.get('frequency').errors " class="invalid-feedback ">
+                  <div *ngIf="feesSpecificSettingsComponent.get('frequency').errors.required ">Frequency should not be empty.</div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-2 col-sm-12">
+              <div class="">
+                <label class="select-label1">Criteria <span class="red">*</span></label>
+              </div>
+            </div>
+            <div class="col-md-4 col-sm-12">
+              <div class="">
+                <select class="form-control br" formControlName='criteria' (change)="selectCriteria()"
+                [ngClass]="{ 'is-invalid':submitted && feesSpecificSettingsComponent.get('criteria').errors}">
+                  <option value="">Select</option>
+                  <option value="Count">Count</option>
+                  <option value="Amount">Amount</option>
+                  <option value="Fee Amount">Fee Amount</option>
+                </select>
+                <div *ngIf="submitted && feesSpecificSettingsComponent.get('criteria').errors " class="invalid-feedback ">
+                  <div *ngIf="feesSpecificSettingsComponent.get('criteria').errors.required ">Criteria should not be empty.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mb-3" *ngIf="isCount">
+            <div class="col-md-2 col-sm-12 ">
+    
+              <div class="">
+                <label class="select-label1">Count From <span class="red ">*</span></label>
+              </div>
+    
+            </div>
+            <div class="col-md-4 col-sm-12" >
+              <div class="">
+                <input type="text" class="form-control br" formControlName='criteriaFrom' maxlength="10"
+                  [ngClass]="{ 'is-invalid':submitted && feesSpecificSettingsComponent.get('criteriaFrom').errors}" />
+                <div *ngIf="submitted && feesSpecificSettingsComponent.get('criteriaFrom').errors " class="invalid-feedback ">
+                <div *ngIf="feesSpecificSettingsComponent.get('criteriaFrom').errors.required ">Count From should not be empty.</div>
+                <div *ngIf="feesSpecificSettingsComponent.get('criteriaFrom').errors.pattern ">Do not use character</div>
+                </div>
+              </div>
+    
+            </div>
+    
+            <div class="col-md-2 col-sm-12">
+              <div class="">
+                <label class="select-label1">Count To<span class="red">*</span></label>
+              </div>
+            </div>
+            <div class="col-md-4 col-sm-12">
+              <div class="">
+                <input type="text" class="form-control br" formControlName='criteriaTo' maxlength="10"
+                  [ngClass]="{ 'is-invalid':submitted && feesSpecificSettingsComponent.get('criteriaTo').errors}" />
+                <div *ngIf="submitted && feesSpecificSettingsComponent.get('criteriaTo').errors " class="invalid-feedback ">
+                <div *ngIf="feesSpecificSettingsComponent.get('criteriaTo').errors.required ">Count To should not be empty.</div>
+                <div *ngIf="feesSpecificSettingsComponent.get('criteriaTo').errors.pattern ">Do not use character</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mb-3" *ngIf="isAmount">
+            <div class="col-md-2 col-sm-12 ">
+    
+              <div class="">
+                <label class="select-label1">Amount From <span class="red ">*</span></label>
+              </div>
+    
+            </div>
+            <div class="col-md-4 col-sm-12" >
+              <div class="">
+                <input type="text" class="form-control br" formControlName='criteriaFrom' maxlength="10"
+                  [ngClass]="{ 'is-invalid':submitted && feesSpecificSettingsComponent.get('criteriaFrom').errors}" />
+                <div *ngIf="submitted && feesSpecificSettingsComponent.get('criteriaFrom').errors " class="invalid-feedback ">
+                  <div *ngIf="feesSpecificSettingsComponent.get('criteriaFrom').errors.required ">Amount From should not be empty.</div>
+                  <div *ngIf="feesSpecificSettingsComponent.get('criteriaFrom').errors.pattern ">Do not use character</div>
+                </div>
+              </div>
+    
+            </div>
+    
+            <div class="col-md-2 col-sm-12">
+              <div class="">
+                <label class="select-label1">Amount To<span class="red">*</span></label>
+              </div>
+            </div>
+            <div class="col-md-4 col-sm-12">
+              <div class="">
+                <input type="text" class="form-control br" formControlName='criteriaTo' maxlength="10"
+                  [ngClass]="{ 'is-invalid':submitted && feesSpecificSettingsComponent.get('criteriaTo').errors}" />
+                <div *ngIf="submitted && feesSpecificSettingsComponent.get('criteriaTo').errors " class="invalid-feedback ">
+                  <div *ngIf="feesSpecificSettingsComponent.get('criteriaTo').errors.required ">Amount To should not be empty.</div>
+                  <div *ngIf="feesSpecificSettingsComponent.get('criteriaTo').errors.pattern ">Do not use character</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mb-3">
+            <div class="col-md-2 col-sm-12">
+              <div class="">
+                <label class="select-label1">Percentage / Flat <span class="red">*</span></label>
+              </div>
+            </div>
+            <div class="col-md-4 col-sm-12">
+              <div class="">
+                <select class="form-control br" formControlName='perFlat' (change)="selectPercentage()" 
+                [ngClass]="{ 'is-invalid':submitted && feesSpecificSettingsComponent.get('perFlat').errors}">
+                  <option value="">Select</option>
+                  <option value="Percentage">Percentage</option>
+                  <option value="Flat">Flat</option>
+                  <option value="Both">Both</option>
+                </select>
+                <div *ngIf="submitted && feesSpecificSettingsComponent.get('perFlat').errors " class="invalid-feedback ">
+                  <div *ngIf="feesSpecificSettingsComponent.get('perFlat').errors.required ">Percentage / Flat should not be empty.</div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-2 col-sm-12 " *ngIf="isPercentage">        
+              <div class="">
+                <label class="select-label1 ">Percentage<span class="red ">*</span></label>
+              </div>           
+          </div>
+          <div class="col-md-4 col-sm-12" *ngIf="isPercentage">
+            <div class="">
+              <input type="text" class="form-control br" formControlName='percentage'
+                [ngClass]="{ 'is-invalid':submitted && feesSpecificSettingsComponent.get('percentage').errors}" />
+              <div *ngIf="submitted && feesSpecificSettingsComponent.get('percentage').errors " class="invalid-feedback ">
+                <div *ngIf="feesSpecificSettingsComponent.get('percentage').errors.required ">Percentage should not be empty.</div>
+                <div *ngIf="feesSpecificSettingsComponent.get('percentage').errors.pattern ">Range between 0 to 100</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-2 col-sm-12 " *ngIf="isFlat">
+          
+            <div class="">
+              <label class="select-label1 ">Flat<span class="red ">*</span></label>
+            </div>
+          
+        </div>
+        <div class="col-md-4 col-sm-12" *ngIf="isFlat">
+          <div class="">
+            <input type="text" class="form-control br" formControlName='flat'
+              [ngClass]="{ 'is-invalid':submitted && feesSpecificSettingsComponent.get('flat').errors}" />
+            <div *ngIf="submitted && feesSpecificSettingsComponent.get('flat').errors " class="invalid-feedback ">
+              <div *ngIf="feesSpecificSettingsComponent.get('flat').errors.required ">Flat should not be empty.</div>
+              <div *ngIf="feesSpecificSettingsComponent.get('flat').errors.pattern ">Range between 0 to 100</div>
+            </div>
+          </div>
+        </div>       
+        </div>
+
+        <div class="row mb-3" *ngIf="IsBoth">
+          <div class="col-md-2 col-sm-12 "> 
+            <div class="">
+              <label class="select-label1">Percentage <span class="red ">*</span></label>
+            </div> 
+          </div>
+          <div class="col-md-4 col-sm-12">
+            <div class="">
+              <input type="text" class="form-control br" formControlName='percentage'
+                [ngClass]="{ 'is-invalid':submitted && feesSpecificSettingsComponent.get('percentage').errors}" />
+              <div *ngIf="submitted && feesSpecificSettingsComponent.get('percentage').errors " class="invalid-feedback ">
+                <div *ngIf="feesSpecificSettingsComponent.get('percentage').errors.required ">Percentage should not be empty.</div>
+                <div *ngIf="feesSpecificSettingsComponent.get('percentage').errors.pattern ">Range between 0 to 100</div>
+              </div>
+            </div> 
+          </div>
+  
+          <div class="col-md-2 col-sm-12">
+            <div class="">
+              <label class="select-label1">Flat <span class="red">*</span></label>
+            </div>
+          </div>
+          <div class="col-md-4 col-sm-12">
+            <div class="">
+              <input type="text" class="form-control br" formControlName='flat'
+                [ngClass]="{ 'is-invalid':submitted && feesSpecificSettingsComponent.get('flat').errors}" />
+              <div *ngIf="submitted && feesSpecificSettingsComponent.get('flat').errors " class="invalid-feedback ">
+              <div *ngIf="feesSpecificSettingsComponent.get('flat').errors.required ">Flat should not be empty.</div>
+              <div *ngIf="feesSpecificSettingsComponent.get('flat').errors.pattern ">Range between 0 to 100</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row mb-3" *ngIf="IsBoth">
+          <div class="col-md-2 col-sm-12">
+            <div class="">
+              <label class="select-label1">Rule <span class="red ">*</span></label>
+            </div> 
+          </div>
+          <div class="col-md-4 col-sm-12">
+            <div class="">
+              <select class="form-control br" formControlName='rule'
+              [ngClass]="{ 'is-invalid':submitted && feesSpecificSettingsComponent.get('rule').errors}">
+                <option value="">Select</option>
+                <option value="Higher">Higher</option>
+                <option value="Lower">Lower</option>
+              </select>
+              <div *ngIf="submitted && feesSpecificSettingsComponent.get('rule').errors " class="invalid-feedback ">
+                <div *ngIf="feesSpecificSettingsComponent.get('rule').errors.required ">Rule should not be empty.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+          
+          <div class="row mb-3">
+            <div class="col-md-2 col-sm-12">
+              <div class="">
+                <label class="select-label1">Limit <span class="red">*</span></label>
+              </div>
+            </div>
+            <div class="col-md-4 col-sm-12">
+              <div class="">
+                <select class="form-control br" formControlName='limit' (change)="selectLimit()"
+                [ngClass]="{ 'is-invalid':submitted && feesSpecificSettingsComponent.get('limit').errors}">
+                  <option value="">Select</option>
+                  <option value="Higher">Higher</option>
+                  <option value="Lower">Lower</option>
+                  <option value="Both">Both</option>
+                </select>
+                <div *ngIf="submitted && feesSpecificSettingsComponent.get('limit').errors " class="invalid-feedback ">
+                  <div *ngIf="feesSpecificSettingsComponent.get('limit').errors.required ">Limit should not be empty.</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-2 col-sm-12 " *ngIf="isHigher">
+                
+                  <div class="">
+                    <label class="select-label1 ">Max.Limit <span class="red ">*</span></label>
+                  </div>
+           
+              </div>
+              <div class="col-md-4 col-sm-12" *ngIf="isHigher">
+                <div class="">
+                  <input type="text" class="form-control br" formControlName='maxLimit' maxlength="10"
+                    [ngClass]="{ 'is-invalid':submitted && feesSpecificSettingsComponent.get('maxLimit').errors}" />
+                  <div *ngIf="submitted && feesSpecificSettingsComponent.get('maxLimit').errors " class="invalid-feedback ">
+                    <div *ngIf="feesSpecificSettingsComponent.get('maxLimit').errors.required ">Max.Limit should not be empty.</div>
+                    <div *ngIf="feesSpecificSettingsComponent.get('maxLimit').errors.pattern ">Do not use character</div>
+                  </div>
+                </div>        
+              
+            </div>
+            <div class="col-md-2 col-sm-12" *ngIf="isLower">
+              <div class="">
+                <label class="select-label1">MIN.Limit <span class="red">*</span></label>
+              </div>
+            </div>
+            <div class="col-md-4 col-sm-12" *ngIf="isLower">
+              <div class="">
+                <input type="text" class="form-control br" formControlName='minLimit' maxlength="10"
+                 [ngClass]="{ 'is-invalid':submitted && feesSpecificSettingsComponent.get('minLimit').errors}"/>
+                <div *ngIf="submitted && feesSpecificSettingsComponent.get('minLimit').errors " class="invalid-feedback ">
+                  <div *ngIf="feesSpecificSettingsComponent.get('minLimit').errors.required ">MIN.Limit should not be empty.</div>
+                  <div *ngIf="feesSpecificSettingsComponent.get('minLimit').errors.pattern ">Do not use character</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mb-3" *ngIf="isBoth" >
+              <div class="col-md-2 col-sm-12 " >
+                 
+                    <div class="">
+                      <label class="select-label1 ">Max.Limit <span class="red ">*</span></label>
+                    </div>
+                
+                </div>
+            <div class="col-md-4 col-sm-12" >
+              <div class="">
+                <input type="text" class="form-control br" formControlName='maxLimit' maxlength="10"
+                 [ngClass]="{ 'is-invalid':submitted && feesSpecificSettingsComponent.get('maxLimit').errors}" />
+           <div *ngIf="submitted && feesSpecificSettingsComponent.get('maxLimit').errors " class="invalid-feedback ">
+            <div *ngIf="feesSpecificSettingsComponent.get('maxLimit').errors.required ">Max.Limit should not be empty.</div>
+            <div *ngIf="feesSpecificSettingsComponent.get('maxLimit').errors.pattern ">Do not use character</div>
+                    </div>
+                  </div>        
+                
+              </div>
+      
+              <div class="col-md-2 col-sm-12" >
+                  <div class="">
+                    <label class="select-label1">MIN.Limit <span class="red">*</span></label>
+                  </div>
+                </div>
+                <div class="col-md-4 col-sm-12" >
+                  <div class="">
+                    <input type="text" class="form-control br" formControlName='minLimit'  maxlength="10"
+                    [ngClass]="{ 'is-invalid':submitted && feesSpecificSettingsComponent.get('minLimit').errors}"/>
+                    <div *ngIf="submitted && feesSpecificSettingsComponent.get('minLimit').errors " class="invalid-feedback ">
+                    <div *ngIf="feesSpecificSettingsComponent.get('minLimit').errors.required ">MIN.Limit should not be empty.</div>
+                    <div *ngIf="feesSpecificSettingsComponent.get('minLimit').errors.pattern ">Do not use character</div>
+                    </div>
+                  </div>
+                </div>
+            </div>
+
+          <div class="row mb-3">
+            <div class="col-md-2 col-sm-12">
+              <div class="">
+                <label class="select-label1">Charge Fees To <span class="red">*</span></label>
+              </div>
+            </div>
+            <div class="col-md-4 col-sm-12">
+              <div class="">
+                <select class="form-control br" formControlName='chargeFeeTo' [ngClass]="{ 'is-invalid':submitted && feesSpecificSettingsComponent.get('chargeFeeTo').errors}">
+                  <option value="">Select</option>
+                  <option value="Customer" selected="">Customer</option>
+                </select>
+                <div *ngIf="submitted && feesSpecificSettingsComponent.get('chargeFeeTo').errors " class="invalid-feedback ">
+                  <div *ngIf="feesSpecificSettingsComponent.get('chargeFeeTo').errors.required ">Charge Fees To should not be empty.</div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-2 col-sm-12">
+              <div class="">
+                <label class="select-label1">Seperate Line Item <span class="red">*</span></label>
+              </div>
+            </div>
+            <div class="col-md-4 col-sm-12">
+              <div class="">
+                <input type="checkbox" class="form-control br"  formControlName='seperateLines' 
+                [checked]="isChecked" 
+                (click)="checkedSaperateLine()"
+                [ngClass]="{ 'is-invalid':submitted && feesSpecificSettingsComponent.get('seperateLines').errors}"/>
+                <div *ngIf="submitted && feesSpecificSettingsComponent.get('seperateLines').errors " class="invalid-feedback ">
+                  <div *ngIf="feesSpecificSettingsComponent.get('seperateLines').errors.required ">Seperate Line Item should not be empty.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-12 text-center mt-5">
+            <input type="button" class="btn btn1 shadow1 btnSubmit bg-color text-white" value="Add" (click)="add()"/>
+          </div>
+          
+          
+          <div class="table-responsive mt-5">
+            <table class="table table-striped table-bordered table-hover text-center">
+              <thead class="thead-dark bg-color text-white">
+                <tr>
+                  <!-- <th scope="col">Select</th> -->
+                  <th scope="col">Transaction</th>
+                  <th scope="col">Frequency</th>
+                  <th scope="col">From</th>
+                  <th scope="col">To</th> 
+                  <th scope="col">Flat</th>
+                  <th scope="col">%</th>
+                  <th scope="col">% or Flat</th>
+                  <th scope="col">Limit</th>
+                  <th scope="col">Rule</th>
+                  <th scope="col">Line Item</th>
+                  <th scope="col">Remove</th>
+                </tr>
+              </thead>
+              
+               <tbody formArrayName='feeTable'
+                *ngFor="let r of feesSpecificSettingsComponent.get('feeTable').controls; index as i ">
+                  <tr [formGroupName]="i">
+                  <td style="padding :10px; margin:0;"><input type="text" class="text-center" style="border: none; padding :0; margin:0;background-color: transparent;" formControlName='transaction' readonly></td>              
+                  <td style="padding :10px; margin:0;"><input type="text" class="text-center" style="border: none; padding :0; margin:0;background-color: transparent;" formControlName='frequency' readonly></td>             
+                  <td style="padding :10px; margin:0;"><input type="text" class="text-center" style="border: none; padding :0; margin:0;background-color: transparent;" formControlName='criteriaFrom' readonly></td>
+                  <td style="padding :10px; margin:0;"><input type="text" class="text-center" style="border: none; padding :0; margin:0;background-color: transparent;" formControlName='criteriaTo' readonly></td>
+                  <td style="padding :10px; margin:0;"><input type="text" class="text-center" style="border: none; padding :0; margin:0;background-color: transparent;" formControlName='flat' readonly></td>
+                  <td style="padding :10px; margin:0;"><input type="text" class="text-center" style="border: none; padding :0; margin:0;background-color: transparent;" formControlName='percentage' readonly></td>
+                  <td style="padding :10px; margin:0;"><input type="text" class="text-center" style="border: none; padding :0; margin:0;background-color: transparent;" formControlName='perFlat' readonly></td>
+                  <td style="padding :10px; margin:0;"><input type="text" class="text-center" style="border: none; padding :0; margin:0;background-color: transparent;" formControlName='limit' readonly></td>
+                  <td style="padding :10px; margin:0;"><input type="text" class="text-center" style="border: none; padding :0; margin:0;background-color: transparent;" formControlName='rule' readonly></td>
+                  <td style="padding :10px; margin:0;"><input type="text" class="text-center" style="border: none; padding :0; margin:0;background-color: transparent;" formControlName='seperateLine' readonly></td>                
+                  <td><input type="button" value="remove" (click)="remove(i)"></td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="col-md-12 text-center mt-5">
+              <input type="reset" class="btn btn1 shadow1 btnSubmit bg-color text-white" value="Cancel" (click)="cancel()"/>
+              <input type="submit" class="btn btn1 shadow1 btnSubmit bg-color text-white ml-2" value="Submit" />
+            </div>
+        </form>
+      </div>
+    </div>
+
+
+     <!-- fee confirm form -->
+     <div class="container pl-30 pr-30" *ngIf="confirm">
+        <h2 class="">Fees Management - View Specific Settings Confirm</h2>
+        <div class="dash-line"></div>
+  
+        <div class="shadow1 mt-5 pt-4 pb-5 pl-30 pr-30">
+          <h5 class="text-color pt-2">Specific Fees Group</h5>
+          <hr>
+          <form>
+              <div *ngFor="let data of confirmForm; index as i">
+            <div class="table-responsive">
+              <table class="table table-borderless">
+                <tr>
+                    <td class="font-weight-bold">Fees Code</td>
+                    <td>{{data.feeCode}}</td>
+                    <td class="font-weight-bold">Fees Description</td>
+                    <td>{{data.feeDescription}}</td>
+                  </tr>
+                </table>
+              </div>
+              <h5 class="text-color pt-2">Specific Fees Settings</h5>
+          <hr>
+          <div class="table-responsive mt-5">
+            <table class="table table-striped table-bordered table-hover text-center">
+              <thead class="thead-dark bg-color text-white">
+                <tr>
+                  <th scope="col">Transaction</th>
+                  <th scope="col">Frequency</th> 
+                  <th scope="col">Flat</th>
+                  <th scope="col">%</th>
+                  <th scope="col">% or Flat</th>
+                  <th scope="col">Limit</th>
+                  <th scope="col">Line Item</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                 <td>{{data.transaction}}</td>
+                 <td>{{data.frequency}}</td>          
+                 <td>{{data.flat}}</td>
+                 <td>{{data.percentage}}</td>
+                 <td>{{data.perFlat}}</td>
+                 <td>{{data.limit}}</td>
+                 <td>{{data.seperateLine}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>          
+        </div>
+
+        <div class=" row col-md-12 text-center mt-5">
+            <input type="button" class="btn btn1 shadow1 btnSubmit bg-color text-white" value="Cancel" (click)="cancel()" />
+            <input type="submit" class="btn btn1 shadow1 btnSubmit bg-color text-white ml-2" value="Confirm" (click)="save()" />
+        </div>
+      </form>
+     </div>
+     </div>
+
+     <div class="modal" id="success" role="dialog">
+        <div class="modal-dialog modal-dialog-centered">
+    
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header bg-info">
+                    <h3 class="text-light">Success</h3>
+                    <button type="button" class="close" (click)="close()" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <h4>{{success}}</h4>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-info" data-dismiss="modal" (click)="close()">Close</button>
+                </div>
+            </div>
+    
+        </div>
+    </div>
+    
+    <div class="modal" id="error" role="dialog">
+        <div class="modal-dialog modal-dialog-centered">
+            
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header bg-danger">
+                    <h3 class="text-light">Error</h3>
+                    <button type="button" class="close" (click)="close()" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <h4>{{success}}</h4>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="close()">Close</button>
+                </div>
+            </div>
+    
+        </div>
+    </div>
+

@@ -1,0 +1,376 @@
+<div class="container pl-30 pr-30" *ngIf="isDataEntry">
+    <h2 class="">Bin Group Setup-Add</h2>
+    <div class="dash-line"></div>
+
+    <div class="shadow1 mt-5 pt-4 pb-5 pl-30 pr-30">
+        <h5 class="text-color pt-2 mb-3">Bin Group Details</h5>
+        <hr>
+        <form [formGroup]="binGroupSetup" (ngSubmit)="confirmForm()">
+            <div class="row mb-3 mt-4">
+                <div class="col-md-2 col-sm-12">
+                    <div class="">
+                        <label class="select-label1">BIN Group Code <span style="color: red;">*</span></label>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-12">
+                    <div class="">
+                        <input type="text" maxlength="6" class="form-control br" name="groupCode" (input)="isInput()" formControlName="groupCode" [ngClass]="{ 'is-invalid': submitted && binGroupSetup.get('groupCode').errors }" />
+                        <div *ngIf="submitted && binGroupSetup.get('groupCode').errors" class="invalid-feedback">
+                            <div *ngIf="binGroupSetup.get('groupCode').errors.required">Bin Group code is required</div>
+                            <div *ngIf="binGroupSetup.get('groupCode').errors.minlength">Min Length should be 6</div>
+                        </div>
+                        <div *ngIf="isgroupCodeExist" style="color: red">
+                            Group code already exist.
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2 col-sm-12">
+                    <div class="">
+                        <label class="select-label1">BIN Group Description <span style="color: red;">*</span></label>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-12">
+                    <div class="">
+                        <input type="text" maxlength="50" class="form-control br" formControlName="binGroupDescription" [ngClass]="{ 'is-invalid': submitted && binGroupSetup.get('binGroupDescription').errors }" />
+                        <div *ngIf="submitted && binGroupSetup.get('binGroupDescription').errors" class="invalid-feedback">
+                            <div *ngIf="binGroupSetup.get('binGroupDescription').errors.required">Bin Group Description is required</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-2 col-sm-12">
+                    <div class="">
+                        <label class="select-label1">BIN Group Name <span style="color: red;">*</span> </label>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-12">
+                    <div class="">
+                        <input type="text" maxlength="20" class="form-control br" formControlName="binGroupName" [ngClass]="{ 'is-invalid': submitted && binGroupSetup.get('binGroupName').errors }" />
+                        <div *ngIf="submitted && binGroupSetup.get('binGroupName').errors" class="invalid-feedback">
+                            <div *ngIf="binGroupSetup.get('binGroupName').errors.required">Bin Group Name is required</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2 col-sm-12">
+                    <div class="">
+                        <label class="select-label1">Select BIN <span style="color: red;">*</span></label>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-12">
+                    <div class="">
+                        <select class="form-control br" formControlName="bin" [ngClass]="{ 'is-invalid': submitted && binGroupSetup.get('bin').errors }" (change)="getBindetails()">
+                                       <option value="">Select </option>
+                                            <option *ngFor="let bin of binData" value={{bin.binSetupId}}>
+                                                {{bin.cmsBinNumber}}
+                                            </option>
+                                     </select>
+                        <div *ngIf="submitted && binGroupSetup.get('bin').errors" class="invalid-feedback">
+                            <div *ngIf="binGroupSetup.get('bin').errors.required">Please Select Bin</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-2 col-sm-12">
+                    <div class="">
+                        <label class="select-label1">BIN Description <span style="color: red;">*</span></label>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-12">
+                    <div class="">
+                        <input class="form-control br" formControlName="binDesc" readonly [ngClass]="{ 'is-invalid': submitted && binGroupSetup.get('binDesc').errors }" />
+                        <div *ngIf="submitted && binGroupSetup.get('binDesc').errors" class="invalid-feedback">
+                            <div *ngIf="binGroupSetup.get('binDesc').errors.required">Bin description is required</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2 col-sm-12">
+                    <div class="">
+                        <label class="select-label1">BIN Currency <span style="color: red;">*</span></label>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-12">
+                    <div class="">
+                        <input class="form-control br" formControlName="binCurrency" readonly [ngClass]="{ 'is-invalid': submitted && binGroupSetup.get('binCurrency').errors }" />
+                        <div *ngIf="submitted && binGroupSetup.get('binCurrency').errors" class="invalid-feedback">
+                            <div *ngIf="binGroupSetup.get('binCurrency').errors.required">Bin description is required</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-2 col-sm-12">
+                    <div class="">
+                        <label class="select-label1">BIN Settlement Currency <span style="color: red;">*</span></label>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-12">
+                    <div class="">
+                        <input class="form-control br" formControlName="binSettlement" readonly [ngClass]="{ 'is-invalid': submitted && binGroupSetup.get('binSettlement').errors }" />
+                        <div *ngIf="submitted && binGroupSetup.get('binSettlement').errors" class="invalid-feedback">
+                            <div *ngIf="binGroupSetup.get('binSettlement').errors.required">Bin Settlement Currency is required</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2 col-sm-12">
+                    <div class="">
+                        <label class="select-label1">BIN Settlement Type <span style="color: red;">*</span></label>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-12">
+                    <div class="">
+                        <select class="form-control br" formControlName="binSettlementType" [ngClass]="{ 'is-invalid': submitted && binGroupSetup.get('binSettlementType').errors }">
+                                                <option value="">Select</option>
+                                                <option value="SMS">SMS</option>
+                                                <option value="DUAL">DUAL</option>
+                                         </select>
+                        <div *ngIf="submitted && binGroupSetup.get('binSettlementType').errors" class="invalid-feedback">
+                            <div *ngIf="binGroupSetup.get('binSettlementType').errors.required">Bin Settlement type is required</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <h5 class="text-color pt-2 mb-4">BIN Range Details</h5>
+            <hr>
+            <div class="row mb-3 mt-4">
+                <div class="col-md-2 col-sm-12">
+                    <div class="">
+                        <label class="">BIN range from</label>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-12">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <input class="form-control br" formControlName="binRangeFrom" readonly maxlength="6" [ngClass]="{ 'is-invalid': submitted && binGroupSetup.get('binRangeFrom').errors }" style="padding: 0px 4px;" />
+                        </div>
+                        <div class="col-md-2" style="padding: 0px 4px;">
+                            <input class="form-control br" formControlName="binRangeFrom1" maxlength="2" [ngClass]="{ 'is-invalid': submitted && binGroupSetup.get('binRangeFrom1').errors }" />
+                        </div>
+                        <div class="col-md-3">
+                            <input class="form-control br" formControlName="binRangeFrom2" maxlength="4" [ngClass]="{ 'is-invalid': submitted && binGroupSetup.get('binRangeFrom2').errors }" />
+                        </div>
+                        <div class="col-md-2" style="padding: 0px 4px;">
+                            <input class="form-control br" formControlName="binRangeFrom3" maxlength="3" [ngClass]="{ 'is-invalid': submitted && binGroupSetup.get('binRangeFrom3').errors }" />
+                        </div>
+                        <div class="col-md-2" style="padding: 0px 12px;">
+                            <input class="form-control br" formControlName="binRangeFrom4" readonly maxlength="3" [ngClass]="{ 'is-invalid': submitted && binGroupSetup.get('binRangeFrom4').errors }" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2 col-sm-12">
+                    <div class="">
+                        <label class="">BIN range to</label>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-12">
+                    <div class="row">
+
+                        <div class="col-md-3">
+                            <input class="form-control br" formControlName="binRangeTo" readonly maxlength="6" [ngClass]="{ 'is-invalid': submitted && binGroupSetup.get('binRangeTo').errors }" style="padding: 0px 4px;" />
+                        </div>
+                        <div class="col-md-2" style="padding: 0px 4px;">
+                            <input class="form-control br" formControlName="binRangeTo1" (input)="removeStyle()" name="binRangeTo1" maxlength="2" [ngClass]="{ 'is-invalid': submitted && binGroupSetup.get('binRangeTo1').errors }" />
+                        </div>
+                        <div class="col-md-3">
+                            <input class="form-control br" formControlName="binRangeTo2" name="binRangeTo2" (input)="removeStyle()" maxlength="4" [ngClass]="{ 'is-invalid': submitted && binGroupSetup.get('binRangeTo2').errors }" />
+                        </div>
+                        <div class="col-md-2" style="padding: 0px 4px;">
+                            <input class="form-control br" formControlName="binRangeTo3" name="binRangeTo3" (input)="inputValue()" maxlength="3" [ngClass]="{ 'is-invalid': submitted && binGroupSetup.get('binRangeTo3').errors }" />
+                        </div>
+                        <div class="col-md-2" style="padding: 0px 12px;">
+                            <input class="form-control br" formControlName="binRangeTo4" readonly maxlength="1" [ngClass]="{ 'is-invalid': submitted && binGroupSetup.get('binRangeTo4').errors }" />
+                        </div>
+
+                        <div class="  col-md-12" *ngIf="rangeError" style="color:red;">
+                            Range To should be greater than Range From.
+                        </div>
+                    </div>
+
+                    <div *ngIf="submitted && binGroupSetup.get('binRangeTo').errors" class="invalid-feedback">
+                        <div *ngIf="binGroupSetup.get('binRangeTo').errors.required">Bin Settlement type is required</div>
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-md-2 col-sm-12">
+                    <div class="">
+                        <label class="select-label1">Total Number Of Cards Possible<span style="color: red;">*</span></label>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-12">
+                    <div class="">
+                        <input type="text" class="form-control br" readonly formControlName="totalNumberOfCards" [ngClass]="{ 'is-invalid': submitted && binGroupSetup.get('totalNumberOfCards').errors }" />
+                        <div *ngIf="submitted && binGroupSetup.get('totalNumberOfCards').errors" class="invalid-feedback">
+                            <div *ngIf="binGroupSetup.get('totalNumberOfCards').errors.required">Bin Settlement type is required</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <h5 class="text-color pt-2 mb-4">Transaction Currency Details</h5>
+            <hr>
+            <div class="row mb-3 mt-4">
+                <div class="col-md-6 col-sm-12">
+                    <div class="">
+                        <label class="">Select Transaction Settlement Currency</label>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-12">
+                    <div class="form-group">
+                        <select multiple class="form-control" id="exampleFormControlSelect2" formControlName="transactionSettlementCurrency" [ngClass]="{ 'is-invalid': submitted && binGroupSetup.get('transactionSettlementCurrency').errors }">
+                                        <option value="1">Select</option>
+                                        <option *ngFor="let currency of transactionCurrency" value="{{currency.cmsBinCurrency}}">{{currency.cmsBinCurrency}}</option>
+                                    </select>
+                        <div *ngIf="submitted && binGroupSetup.get('transactionSettlementCurrency').errors" class="invalid-feedback">
+                            <div *ngIf="binGroupSetup.get('transactionSettlementCurrency').errors.required">Select Atleast one Transaction Settlement Currency</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-6 col-sm-12">
+                    <div class="">
+                        <label class="">Select Plastic Code</label>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-12">
+                    <div class="form-group">
+                        <select multiple class="form-control" id="exampleFormControlSelect2" formControlName="plasticCode" [ngClass]="{ 'is-invalid': submitted && binGroupSetup.get('plasticCode').errors }">
+                            <option value="1">Select</option>
+                            <option *ngFor="let currency of plasticCodeName" value="{{currency.plasticCode}}">{{currency.plasticCode}}</option>
+                        </select>
+                        <div *ngIf="submitted && binGroupSetup.get('plasticCode').errors" class="invalid-feedback">
+                            <div *ngIf="binGroupSetup.get('plasticCode').errors.required">Select Atleast one Plastic code</div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-md-12 text-center mt-5">
+                    <input type="button" class="btn btn1 shadow1 btnSubmit bg-color text-white" value="Cancel" (click)="reset()" />
+                    <input type="submit" class="btn btn1 shadow1 btnSubmit bg-color text-white ml-2" value="Confirm" />
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<!--  For confirm window -->
+
+<div class="container pl-30 pr-30" *ngIf="isConfirm">
+    <h2 class="">View Bingroup Setup-Confirm</h2>
+    <div class="dash-line"></div>
+
+    <div class="shadow1 mt-5 pt-4 pb-5 pl-30 pr-30">
+        <h5 class="text-color pt-2">Bingroup Definition Details</h5>
+        <hr>
+        <form>
+            <div class="table-responsive">
+                <table class="table table-borderless">
+
+                    <tr>
+                        <th scope="col">BIN Group code</th>
+                        <td>{{binConfirm.groupCode}}</td>
+                        <th scope="col">BIN Group Description1</th>
+                        <td>{{binConfirm.binGroupDescription}}</td>
+                    </tr>
+
+                    <tr>
+                        <th scope="col">BIN Group Name</th>
+                        <td>{{binConfirm.binGroupName}}</td>
+                        <th scope="col">BIN</th>
+                        <td>{{binConfirm.bin}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="col">BIN Description</th>
+                        <td>{{binConfirm.binDesc}}</td>
+                        <th scope="col">BIN Currency</th>
+                        <td>{{binConfirm.binCurrency}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="col">BIN Settlement Currency</th>
+                        <td>{{binConfirm.binSettlement}}</td>
+                        <th scope="col">Settlement Type</th>
+                        <td>{{binConfirm.binSettlementType}}</td>
+                    </tr>
+                    <h5 class="text-color pt-2 mt-3">Bingroup Range Details</h5>
+                    <tr class="br-top">
+                        <th scope="col" class="">BIN Range</th>
+                        <th scope="col">From</th>
+                        <!-- <td>1631</td> -->
+                        <td>{{binConfirm.binRangeFrom}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <th scope="col">To:</th>
+                        <!-- <td>1631</td> -->
+                        <td>{{binConfirm.binRangeTo}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <th scope="col">Total Number Of Cards Possible</th>
+                        <td>&nbsp;</td>
+                        <td>{{binConfirm.totalNumberOfCards}}</td>
+                    </tr>
+                    <h5 class="text-color pt-2">Transaction Currency Details</h5>
+                    <tr class="br-top">
+                        <th scope="col">Transaction Settlement Currencies</th>
+                        <td>{{binConfirm.transactionSettlementCurrency}}</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <th scope="col">Plastic Codes</th>
+                        <td>{{binConfirm.plasticCode}}</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tr>
+
+                </table>
+            </div>
+            <div class=" row col-md-12 text-center mt-5">
+                <input type="button" class="btn btn1 shadow1 btnSubmit bg-color text-white" value="Cancel" (click)="cancel()" />
+                <input type="button" class="btn btn1 shadow1 btnSubmit bg-color text-white ml-2" value="Submit" (click)="submitBinGroupData()" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="modal" id="success" role="dialog">
+    <div class="modal-dialog modal-dialog-centered">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header bg-info">
+                <h4 class="text-light">Success</h4>
+                <button type="button" class="close" (click)="close()" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <h5>{{success}}</h5>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-info" data-dismiss="modal" (click)="close()">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="error" role="dialog">
+    <div class="modal-dialog modal-dialog-centered">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header bg-danger">
+                <h4 class="text-light">Error</h4>
+                <button type="button" class="close" (click)="close()" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <h5>{{success}}</h5>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="close()">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>

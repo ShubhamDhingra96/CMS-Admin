@@ -1,0 +1,33 @@
+<div class="container pl-30 pr-30">
+    <h2 class="">Program Definition- View</h2>
+    <div class="dash-line"></div>
+    <h5 class="text-color mt-4 mb-4">Program Definition Details</h5>
+    <hr>
+    <div class="table-responsive mt-4">
+        <table class="table table-striped table-bordered table-hover text-center">
+            <thead class="thead-dark bg-color text-white">
+                <tr>
+                    <th scope="col">Application Type</th>
+                    <th scope="col">Authorization Rule</th>
+                    <th scope="col">Program Code*</th>
+                    <th scope="col">Program Description*</th>
+                    <th scope="col">Short Description*</th>
+                    <th scope="col">Multiple Product Account</th>
+                    <th scope="col">InsertedBy</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let details of definitionDetails">
+                    <td>{{details.applicationType}}</td>
+                    <td>{{details.authorizationrule}}</td>
+                    <td>{{details.programmecode}}</td>
+                    <td>{{details.programmedescription}}</td>
+                    <td>{{details.shortdescription}}</td>
+                    <td>{{details.multipleProductAccount}}</td>
+                    <td>{{details.insertedBy}}</td>
+            </tbody>
+        </table>
+    </div>
+
+</div>

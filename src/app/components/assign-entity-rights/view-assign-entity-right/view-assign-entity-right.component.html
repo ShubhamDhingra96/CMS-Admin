@@ -1,0 +1,26 @@
+<div class="container pl-30 pr-30">
+    <h2 class="">Assign Entity Right- View</h2>
+    <div class="dash-line"></div>
+    <div class="shadow1 mt-5 pt-4 pb-5 pl-30 pr-30">
+
+        <h5 class="text-color pt-2">Function Access Right Details</h5>
+        <hr>
+        <div class="table-responsive mt-4">
+            <table class="table table-striped table-bordered table-hover text-center">
+                <thead class="thead-dark bg-color text-white">
+                    <tr>
+                        <th scope="col" colspan="1">View Rights for User: {{user}}</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let right of rights">
+                        <td style="text-align: left;">{{right}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+</div>

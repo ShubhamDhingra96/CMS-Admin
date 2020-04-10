@@ -1,0 +1,60 @@
+<div class="container pl-30 pr-30" *ngIf="isEntity">
+    <h2 class="">BinGroup Details</h2>
+    <div class="dash-line"></div>
+    <div class="shadow1 mt-5 pt-4 pb-5 pl-30 pr-30">
+        <div class="container row">
+            <div class="col-md-5"></div>
+            <div class="col-md-7 row">
+                <div class="col-md-6">
+                    <div class="form-group" [formGroup]="selectEntityForm">
+                        <label for="entity">Select Entity : </label>
+                        <select class="form-control" formControlName="entity" (change)="selectEntity()">
+                              <option value="">Select</option>
+                              <option *ngFor="let r of entity" value="{{r.username}}">{{r.username}}</option>
+                            </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row col-md-12 alert alert-info text-center" role="alert" *ngIf="show">
+            <strong> {{errorMessage}} </strong>
+        </div>
+    </div>
+</div>
+
+
+<div class="container pl-30 pr-30" *ngIf="isView">
+    <h2 class="">Bin Group Setup-View</h2>
+    <div class="dash-line"></div>
+    <h5 class="text-color mt-4 mb-4">Bin Group Details</h5>
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered table-hover text-center">
+            <thead class="thead-dark bg-color text-white">
+                <tr>
+                    <!-- <th scope="col">Select</th> -->
+                    <th scope="col">BIN Group Code</th>
+                    <th scope="col">BIN Group Name</th>
+                    <th scope="col">BIN Group Description</th>
+                    <th scope="col">Transaction Settlement Currency</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                <tr *ngFor="let user of binGroupData">
+                    <td>{{user.selectBin}}</td>
+                    <td>{{user.binGroupName}}</td>
+                    <td>{{user.binGroupName}}</td>
+                    <td>{{user.binSettlement}}</td>
+                </tr>
+                <tr *ngIf="error">
+                    <td colspan="4">
+                        <h3>{{message}}</h3>
+                    </td>
+                </tr>
+
+
+            </tbody>
+        </table>
+    </div>
+</div>

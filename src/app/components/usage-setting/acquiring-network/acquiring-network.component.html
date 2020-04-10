@@ -1,0 +1,409 @@
+<div class="container pl-30 pr-30" *ngIf="enterData">
+    <h2 class="">Usage Settings - Acquiring Network Group</h2>
+    <div class="dash-line"></div>
+    <p class="text-right pt-3"><span class="red">*</span> All Fields are mandatory</p>
+    <div class="shadow1 mt-4 pt-4 pb-5 pl-30 pr-30">
+        <h5 class="text-color pt-2">Create New Group</h5>
+        <hr>
+        <form [formGroup]="acquiredNetworkGroup" (ngSubmit)="confirmMerchant()">
+            <div class="row mb-3 mt-4">
+                <div class="col-md-2 col-sm-12">
+                    <div class="">
+                        <label class="select-label1">Group Code <span class="red">*</span></label>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-12">
+                    <div class="">
+                        <input type="text" formControlName="groupCode" name="groupCode" (input)="isInput()" class="form-control br" [ngClass]="{ 'is-invalid':submitted && acquiredNetworkGroup.get('groupCode').errors}" />
+                        <div *ngIf="submitted && acquiredNetworkGroup.get('groupCode').errors " class="invalid-feedback ">
+                            <div *ngIf="acquiredNetworkGroup.get('groupCode').errors.required ">Group Code should not be empty.</div>
+                            <div *ngIf="acquiredNetworkGroup.get('groupCode').errors.pattern ">Do not use special character (@!#$%^&*()).</div>
+                            <div *ngIf="acquiredNetworkGroup.get('groupCode').errors.maxlength || acquiredNetworkGroup.get('groupCode').errors.minlength">Length should be between 10 to 20 char.</div>
+                        </div>
+                        <div *ngIf="isgroupCodeExist" style="color: red">
+                            Group code already exist.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-2 col-sm-12">
+                    <div class="">
+                        <label class="select-label1">Group Name <span class="red">*</span></label>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-12">
+                    <div class="">
+                        <input type="text" formControlName="groupName" class="form-control br" [ngClass]="{ 'is-invalid':submitted && acquiredNetworkGroup.get('groupName').errors}" />
+                        <div *ngIf="submitted && acquiredNetworkGroup.get('groupName').errors " class="invalid-feedback ">
+                            <div *ngIf="acquiredNetworkGroup.get('groupName').errors.required ">Group Name should not be empty.</div>
+                            <div *ngIf="acquiredNetworkGroup.get('groupName').errors.pattern ">Do not use special character (@!#$%^&*()).</div>
+                            <div *ngIf="acquiredNetworkGroup.get('groupName').errors.maxlength || acquiredNetworkGroup.get('groupName').errors.minlength">Length should be between 10 to 20 char.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-2 col-sm-12">
+                    <div class="">
+                        <label class="select-label1">Group Description <span class="red">*</span></label>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-12">
+                    <div class="">
+                        <input type="text" formControlName="groupDescription" class="form-control br" [ngClass]="{ 'is-invalid':submitted && acquiredNetworkGroup.get('groupCode').errors}" />
+                        <div *ngIf="submitted && acquiredNetworkGroup.get('groupDescription').errors " class="invalid-feedback ">
+                            <div *ngIf="acquiredNetworkGroup.get('groupDescription').errors.required ">Group Description should not be empty.</div>
+                            <div *ngIf="acquiredNetworkGroup.get('groupDescription').errors.pattern ">Do not use special character (@!#$%^&*()).</div>
+                            <div *ngIf="acquiredNetworkGroup.get('groupDescription').errors.maxlength || acquiredNetworkGroup.get('groupDescription').errors.minlength">Length should be between 10 to 20 char.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <h5 class="text-color pt-2 mt-5">Aquiring Network Defination</h5>
+            <hr>
+            <div class="row mb-3 mt-4">
+                <div class="col-md-2 col-sm-12">
+                    <div class="">
+                        <label class="select-label1">Network Type <span class="red">*</span></label>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-12">
+                    <select class="form-control br" formControlName="networkType" (change)="selectNetworkType()" [ngClass]="{'is-invalid':submitted && acquiredNetworkGroup.get('networkType').errors}">
+                                <option value="">Select</option>
+                                <option *ngFor="let data of acquiringNetworkDefinition" value="{{data.acquiredNetworkGroupId}}">{{data.acquiredNetworkGroupName}}</option>
+                                
+                            </select>
+                    <div *ngIf="submitted && acquiredNetworkGroup.get('networkType').errors " class="invalid-feedback ">
+                        <div *ngIf="acquiredNetworkGroup.get('networkType').errors.required ">Network Type should not be empty.</div>
+                    </div>
+                </div>
+                <div class="col-md-2 col-sm-12 ">
+                    <div class=" ">
+                        <label class="select-label1 "> Description <span class="red">*</span></label>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-12 ">
+                    <input formControlName="networkDesc" readonly class="form-control br">
+                </div>
+            </div>
+            <div class="row mb-3 ">
+                <div class="col-md-2 col-sm-12 ">
+                    <div class=" ">
+                        <label class="select-label1 ">NetworkID  <span class="red">*</span></label>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-12 ">
+                    <select class="form-control br " formControlName="networkId" (change)="selectNetworkId()" [ngClass]="{'is-invalid':submitted && acquiredNetworkGroup.get('networkId').errors}">
+                                <option value="">Select</option>
+                                <option  *ngFor="let data of networkId" value="{{data.networkId}}">{{data.networkName}}</option>
+                                                             
+                            </select>
+                    <div *ngIf="submitted && acquiredNetworkGroup.get('networkId').errors " class="invalid-feedback ">
+                        <div *ngIf="acquiredNetworkGroup.get('networkId').errors.required ">Network Id should not be empty.</div>
+                    </div>
+                </div>
+                <div class="col-md-2 col-sm-12 ">
+                    <div class=" ">
+                        <label class="select-label1 ">Description <span class="red ">*</span></label>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-12 ">
+                    <input formControlName="networkIdDesc" readonly class="form-control br">
+                </div>
+
+            </div>
+            <div class="row mb-3 ">
+                <div class="col-md-2 col-sm-12 ">
+                    <div class=" ">
+                        <label class="select-label1 ">Country Code <span class="red ">*</span></label>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-12 ">
+                    <select class="form-control br " formControlName="countryCode" (change)="selectCountryCode()" [ngClass]="{'is-invalid':submitted && acquiredNetworkGroup.get('countryCode').errors}">
+                            <option value="">Select</option>
+                            <option  *ngFor="let data of countryCode" value="{{data.countryCodeId}}">{{data.countryCodeName}}</option>
+                            </select>
+                    <div *ngIf="submitted && acquiredNetworkGroup.get('countryCode').errors " class="invalid-feedback ">
+                        <div *ngIf="acquiredNetworkGroup.get('countryCode').errors.required ">Country code should not be empty.</div>
+                    </div>
+                </div>
+                <div class="col-md-2 col-sm-12 ">
+                    <div class=" ">
+                        <label class="select-label1 ">Description <span class="red ">*</span></label>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-12 ">
+                    <input formControlName="networkDescriDesc" readonly class="form-control br">
+                </div>
+
+            </div>
+            <h5 class="text-color pt-2 mt-5 ">Aquiring Network Settings</h5>
+            <hr>
+            <div class="row mb-3 mt-4 ">
+                <div class="col-md-2 col-sm-12 ">
+                    <div class=" ">
+                        <label class="select-label1 ">Delivery Channel <span class="red">*</span></label>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-12 ">
+                    <select class="form-control br " formControlName="deliveryChannel" (change)="selectDeliveryChannel()" [ngClass]="{'is-invalid':submitted && acquiredNetworkGroup.get('deliveryChannel').errors}">
+                            <option value="">Select</option>
+                            <option *ngFor="let data of deliveryChannelId" value="{{data.delId}}">{{data.delCode}}</option>
+                            </select>
+                    <div *ngIf="submitted && acquiredNetworkGroup.get('deliveryChannel').errors " class="invalid-feedback ">
+                        <div *ngIf="acquiredNetworkGroup.get('deliveryChannel').errors.required ">Delivery Channel Name should not be empty.</div>
+                    </div>
+                </div>
+                <div class="col-md-2 col-sm-12 ">
+                    <div class=" ">
+                        <label class="select-label1 "> Delivery Channel Name <span class="red ">*</span></label>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-12 ">
+                    <div class=" ">
+                        <input type="text" formControlName="deliveryChannelName" class="form-control br" [ngClass]="{ 'is-invalid':submitted && acquiredNetworkGroup.get('deliveryChannelName').errors}" readonly />
+                        <div *ngIf="submitted && acquiredNetworkGroup.get('deliveryChannelName').errors " class="invalid-feedback ">
+                            <div *ngIf="acquiredNetworkGroup.get('deliveryChannelName').errors.required ">Delivery Channel Name should not be empty.</div>
+                            <div *ngIf="acquiredNetworkGroup.get('deliveryChannelName').errors.pattern ">Do not use special character (@!#$%^&*()).</div>
+                            <div *ngIf="acquiredNetworkGroup.get('deliveryChannelName').errors.maxlength || acquiredNetworkGroup.get('deliveryChannelName').errors.minlength">Length should be between 10 to 20 char.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-3 " *ngIf="isATM">
+                <div class="col-md-2 col-sm-12 ">
+                    <div class=" ">
+                        <label class="select-label1 ">Location <span class="red ">*</span></label>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-12 ">
+                    <div class=" ">
+                        <input type="text" formControlName="location" class="form-control br" [ngClass]="{ 'is-invalid':submitted && acquiredNetworkGroup.get('location').errors}" />
+                        <div *ngIf="submitted && acquiredNetworkGroup.get('location').errors " class="invalid-feedback ">
+                            <div *ngIf="acquiredNetworkGroup.get('location').errors.required ">Location should not be empty.</div>
+                            <div *ngIf="acquiredNetworkGroup.get('location').errors.pattern ">Do not use special character (@!#$%^&*()).</div>
+                            <div *ngIf="acquiredNetworkGroup.get('location').errors.maxlength || acquiredNetworkGroup.get('location').errors.minlength">Length should be between 10 to 20 char.</div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-md-2 col-sm-12 ">
+                    <div class=" ">
+                        <label class="select-label1 ">Terminal ID <span class="red ">*</span></label>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-12 ">
+                    <div class=" ">
+                        <input type="text" formControlName="terminalId" class="form-control br" [ngClass]="{ 'is-invalid':submitted && acquiredNetworkGroup.get('terminalId').errors}" />
+                        <div *ngIf="submitted && acquiredNetworkGroup.get('terminalId').errors " class="invalid-feedback ">
+                            <div *ngIf="acquiredNetworkGroup.get('terminalId').errors.required ">Terminal ID should not be empty.</div>
+                            <div *ngIf="acquiredNetworkGroup.get('terminalId').errors.pattern ">Do not use special character (@!#$%^&*()).</div>
+                            <div *ngIf="acquiredNetworkGroup.get('terminalId').errors.maxlength || acquiredNetworkGroup.get('terminalId').errors.minlength">Length should be between 10 to 20 char.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-3 " *ngIf="isPOS">
+                <div class="col-md-2 col-sm-12 ">
+                    <div class=" ">
+                        <label class="select-label1 ">Merchant ID <span class="red ">*</span></label>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-12 ">
+                    <div class=" ">
+                        <input type="text" formControlName="merchantId" class="form-control br" [ngClass]="{ 'is-invalid':submitted && acquiredNetworkGroup.get('merchantId').errors}" />
+                        <div *ngIf="submitted && acquiredNetworkGroup.get('merchantId').errors " class="invalid-feedback ">
+                            <div *ngIf="acquiredNetworkGroup.get('merchantId').errors.required ">Merchant ID should not be empty.</div>
+                            <div *ngIf="acquiredNetworkGroup.get('merchantId').errors.pattern ">Do not use special character (@!#$%^&*()).</div>
+                            <div *ngIf="acquiredNetworkGroup.get('merchantId').errors.maxlength || acquiredNetworkGroup.get('merchantId').errors.minlength">Length should be between 10 to 20 char.</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2 col-sm-12 ">
+                    <div class=" ">
+                        <label class="select-label1 ">Terminal ID <span class="red ">*</span></label>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-12 ">
+                    <div class=" ">
+                        <input type="text" formControlName="terminalId" class="form-control br" [ngClass]="{ 'is-invalid':submitted && acquiredNetworkGroup.get('terminalId').errors}" />
+                        <div *ngIf="submitted && acquiredNetworkGroup.get('terminalId').errors " class="invalid-feedback ">
+                            <div *ngIf="acquiredNetworkGroup.get('terminalId').errors.required ">Terminal ID should not be empty.</div>
+                            <div *ngIf="acquiredNetworkGroup.get('terminalId').errors.pattern ">Do not use special character (@!#$%^&*()).</div>
+                            <div *ngIf="acquiredNetworkGroup.get('terminalId').errors.maxlength || acquiredNetworkGroup.get('terminalId').errors.minlength">Length should be between 10 to 20 char.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12 text-center mt-5 ">
+                <input type="button" class="btn btn1 shadow1 btnSubmit bg-color text-white" value="Add" (click)="addToTable()" />
+            </div>
+
+            <div class="table-responsive mt-5 ">
+                <table class="table table-striped table-bordered table-hover text-center ">
+                    <thead class="thead-dark bg-color text-white ">
+                        <tr>
+                            <th scope="col ">Select</th>
+                            <th scope="col ">Delivery Channel</th>
+                            <th scope="col ">Merchant ID</th>
+                            <th scope="col ">Location</th>
+                            <th scope="col ">remove</th>
+                        </tr>
+                    </thead>
+                    <tbody formArrayName="acquiredGroups" *ngFor="let r of acquiredNetworkGroup.get('acquiredGroups').controls; index as i">
+                        <tr [formGroupName]="i" class="form-group">
+
+                            <input type="hidden" formControlName="groupCode">
+                            <input type="hidden" formControlName="groupName">
+                            <input type="hidden" formControlName="groupDescription">
+                            <input type="hidden" formControlName="networkType">
+                            <input type="hidden" formControlName="networkId">
+                            <input type="hidden" formControlName="countryCode">
+                            <input type="hidden" formControlName="deliveryChannel">
+                            <input type="hidden" formControlName="deliveryChannelName">
+                            <input type="hidden" formControlName="location">
+                            <input type="hidden" formControlName="terminalId">
+                            <input type="hidden" formControlName="merchantId">
+                            <input type="hidden" formControlName="insertedBy">
+                            <input type="hidden" formControlName="insertedDate">
+                            <input type="hidden" formControlName="modifiedBy">
+                            <input type="hidden" formControlName="modifiedDate">
+
+                            <td><input type="text" class="form-control text-center" style="border: none;" formControlName="deliveryChannel" readonly></td>
+                            <td><input type="text" class="form-control text-center" style="border: none;" formControlName="merchantId" readonly></td>
+                            <td><input type="text" class="form-control text-center" style="border: none;" formControlName="location" readonly></td>
+                            <td><input type="text" class="form-control text-center" style="border: none;" formControlName="location" readonly></td>
+                            <td><input type="button" value="remove" (click)="remove(i)"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="col-md-12 text-center mt-5 ">
+                <input type="reset" class="btn btn1 shadow1 btnSubmit bg-color text-white " value="Cancel" (click)="cancel()" />
+                <input type="submit" class="btn btn1 shadow1 btnSubmit bg-color text-white ml-2 " value="Submit " />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="container pl-30 pr-30" *ngIf="confirm">
+    <h2 class="">Usage Settings - View Acquired Network Group-Confirm</h2>
+    <div class="dash-line"></div>
+
+    <div class="shadow1 mt-5 pt-4 pb-5 pl-30 pr-30" *ngFor="let data of channelsForm">
+        <h5 class="text-color pt-2">Delivery Channel Group Details</h5>
+        <hr>
+        <form>
+            <div class="table-responsive" *ngFor="let data of channelsForm; index as i">
+                <table class="table table-borderless">
+                    <tr>
+                        <th colspan="4" class="bg-dark text-light">{{i+1}}).</th>
+                    </tr>
+                    <tr>
+                        <th scope="col">Group code</th>
+                        <td>{{data.groupCode}}</td>
+                        <th scope="col">Group Name</th>
+                        <td>{{data.groupName}}</td>
+                    </tr>
+
+
+                    <tr>
+                        <th scope="col"> Group Description</th>
+                        <td>{{data.groupDesc}}</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tr>
+
+                </table>
+            </div>
+
+            <h5 class="text-color pt-2">Delivery Channel Settings</h5>
+            <hr>
+            <div class="row mb-3 mt-4">
+                <div class="col-md-4 col-sm-12">
+                    <div class="">
+                        <label class="font-weight-bold color-black pl-2">Delivery Channel</label>
+                    </div>
+
+                </div>
+                <div class="col-md-4 col-sm-12">
+                    <div class="pl-2">
+                        <label class="font-weight-bold color-black">MerchantId</label>
+                    </div>
+                    <div class="pl-2">
+                        <label class="font-weight-bold color-black">Location</label>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-4 col-sm-12">
+                    <div class="pl-2">
+                        <p>{{data.deliveryChannels}}</p>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-12">
+                    <div class="pl-2">
+                        <p>{{data.merchantId}}</p>
+                    </div>
+                    <div class="col-md-4 col-sm-12">
+                        <div class="pl-2">
+                            <p>{{data.location}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+    </div>
+    <div class=" row col-md-12 text-center mt-5 ">
+        <input type="button" class="btn btn1 shadow1 btnSubmit bg-color text-white" value="Cancel" (click)="cancel()" />
+        <input type="submit" class="btn btn1 shadow1 btnSubmit bg-color text-white ml-2 " value="Confirm" (click)="save()" />
+    </div>
+</div>
+
+<div class="modal" id="success" role="dialog">
+    <div class="modal-dialog modal-dialog-centered">
+
+        <!-------------------------------------------------------->
+        <!-------------------------------------------------------->
+        <!-------------------------------------------------------->
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header bg-info">
+                <h3 class="text-light">Success</h3>
+                <button type="button" class="close" (click)="close()" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <h4>{{success}}</h4>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-info" data-dismiss="modal" (click)="close()">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="modal" id="error" role="dialog">
+    <div class="modal-dialog modal-dialog-centered">
+
+        <!-------------------------------------------------------->
+        <!-------------------------------------------------------->
+        <!-------------------------------------------------------->
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header bg-danger">
+                <h3 class="text-light">Error</h3>
+                <button type="button" class="close" (click)="close()" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <h4>{{success}}</h4>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="close()">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>

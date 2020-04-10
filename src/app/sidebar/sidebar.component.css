@@ -1,0 +1,63 @@
+#content {
+    position: relative;
+    z-index: 1;
+    z-index: 500;
+}
+
+#sidebar ul {
+    position: relative;
+}
+
+#sidebar ul li {
+    position: relative;
+}
+
+#sidebar ul ul {
+    display: none;
+    background: #fff;
+}
+
+#sidebar li.active>ul {
+    display: block;
+}
+
+#sidebar.active .submenu {
+    background: #1b2317;
+    border-left: 1px #fff solid;
+    /* display: block;
+    position: absolute;*/
+    width: 200px;
+    left: 80px;
+    top: 0px;
+    z-index: 1;
+    position: absolute;
+}
+
+#sidebar.active .submenu a {
+    color: #fff;
+    text-align: left;
+}
+
+#sidebar.active ul li .submenu a:hover {
+    color: #5cac41;
+}
+
+.dropmenu:after {
+    font-family: 'FontAwesome';
+    font-size: 16px;
+    content: "\f105";
+    vertical-align: middle;
+    float: right;
+    margin-right: 0px;
+    transition: all .3s ease;
+}
+
+.openmenu:after {
+    -ms-transform: rotate(90deg);
+    -webkit-transform: rotate(90deg);
+    transform: rotate(90deg);
+}
+
+#sidebar.active ul li.li-active .submenu a {
+    background: transparent;
+}

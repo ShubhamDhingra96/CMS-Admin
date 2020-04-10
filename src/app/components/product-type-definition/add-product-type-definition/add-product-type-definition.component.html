@@ -1,0 +1,628 @@
+<div class="container pl-30 pr-30">
+    <h2 class="">Product Type Definition-Add</h2>
+    <div class="dash-line"></div>
+    <p class="text-right pt-3"><span class="red">*</span> All Fields are mandatory</p>
+
+    <div class="shadow1 pt-4 pb-5 pl-30 pr-30">
+        <h5 class="text-color pt-2 pb-3">Product Type Definition</h5>
+        <hr>
+        <form [formGroup]="productDefinationGroup" (ngSubmit)="saveProductDefination()">
+            <div class="row mb-3 mt-4">
+                <div class="col-md-2 col-sm-12">
+                    <label class="select-label">Product Code <span class="red">*</span></label>
+                </div>
+                <div class="col-md-4 col-sm-12">
+                    <input type="text" maxlength="6" formControlName="productCode" class="form-control br" [ngClass]="{'is-invalid': submitted && productDefinationGroup.get('productCode').errors}"/>
+                    <div *ngIf="submitted &&  productDefinationGroup.get('productCode').errors " class="invalid-feedback ">
+                            <div *ngIf="productDefinationGroup.get('productCode').errors.required ">Product Code should not be empty.</div>
+                            <div *ngIf="productDefinationGroup.get('productCode').errors.pattern ">Do not use special character (@!#$%^&*()).</div>
+                            <div *ngIf="productDefinationGroup.get('productCode').errors.maxlength ">Length should be between 1 to 6 char.</div>
+                        </div>
+                </div>
+                <div class="col-md-2 col-sm-12">
+                    <label class="select-label">Product Name <span class="red">*</span></label>
+                </div>
+                <div class="col-md-4 col-sm-12">
+                    <input type="text" formControlName="productName" maxlength="20" class="form-control br" [ngClass]="{'is-invalid': submitted && productDefinationGroup.get('productName').errors}"/>
+                    <div *ngIf="submitted &&  productDefinationGroup.get('productName').errors " class="invalid-feedback ">
+                    <div *ngIf="productDefinationGroup.get('productName').errors.required ">Product Name should not be empty.</div>
+                </div>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-2 col-sm-12">
+                    <label class="select-label">Product Description <span class="red">*</span></label>
+                </div>
+                <div class="col-md-4 col-sm-12">
+                    <input type="text" formControlName="productDescription" maxlength="20" class="form-control br"  [ngClass]="{'is-invalid': submitted && productDefinationGroup.get('productDescription').errors}"/>
+                    <div *ngIf="submitted &&  productDefinationGroup.get('productDescription').errors " class="invalid-feedback ">
+                            <div *ngIf="productDefinationGroup.get('productDescription').errors.required ">Product Description should not be empty.</div>
+                </div>
+                </div>
+                <div class="col-md-2 col-sm-12">
+                    <label class="select-label">Pair Cards <span class="red">*</span></label>
+                </div>
+                <div class="col-md-4 col-sm-12">
+                    <div class="">
+
+                        <div class="form-check mt-2 form-check-inline">
+                            <input class="form-check-input" formControlName="pairCards" type="radio" (click)="selectPair()" name="inlineRadioOptions" [checked]="isChecked" id="inlineRadio1"
+                                value="Yes">
+                            <label class="form-check-label" for="inlineRadio1">Yes</label>
+                        </div>
+                        <div class="form-check mt-2 form-check-inline">
+                            <input class="form-check-input" formControlName="pairCards" type="radio" (click)="selectPair()" name="inlineRadioOptions" [checked]="!isChecked" id="inlineRadio2"
+                                value="No">
+                            <label class="form-check-label" for="inlineRadio2">No</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-2 col-sm-12">
+                    <label class="select-label">Application Type <span class="red">*</span></label>
+                </div>
+                <div class="col-md-4 col-sm-12">
+                    <select class="form-control br" formControlName="applicationType"  [ngClass]="{'is-invalid': submitted && productDefinationGroup.get('applicationType').errors}">
+                    
+                        <option value="">Select</option>
+                        <option value="PREPAID">PREPAID</option>
+                        <option value="CREDIT">CREDIT</option>
+                        <option value="DEBIT">DEBIT</option>
+                        <option value="COMMERCIAL">COMMERCIAL</option>
+                    </select>
+                    <div *ngIf="submitted && productDefinationGroup.get('applicationType').errors "
+                        class="invalid-feedback ">
+                        <div *ngIf="productDefinationGroup.get('applicationType').errors.required ">Application Type
+                            should not be empty.</div>
+                            </div>
+                </div>
+
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-2 col-sm-12">
+                    <label class="select-label">Program <span class="red">*</span></label>
+                </div>
+                <div class="col-md-4 col-sm-12">
+                    <select class="form-control br" formControlName="programType" (change)="selectProgramType()"
+                        [ngClass]="{'is-invalid':submitted && productDefinationGroup.get('programType').errors}">
+                        <option value="">Select</option>
+                        <option *ngFor="let data of productDefination" value="{{data.programDefinitionid}}">
+                            {{data.programCode}}</option>
+                    </select>
+                    <div *ngIf="submitted && productDefinationGroup.get('programType').errors "
+                        class="invalid-feedback ">
+                        <div *ngIf="productDefinationGroup.get('programType').errors.required ">Program should not be
+                            empty.</div>
+                    </div>
+                </div>
+
+                <div class="col-md-2 col-sm-12">
+                    <label class="select-label">Program Description <span class="red">*</span></label>
+                </div>
+                <div class="col-md-4 col-sm-12">
+                    <input type="text" formControlName="programDescription" class="form-control br" readonly />
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-2 col-sm-12">
+                    <label class="select-label">Product Currency <span class="red">*</span></label>
+                </div>
+                <div class="col-md-4 col-sm-12">
+                    <select class="form-control br" formControlName="productCurrency" (change)="selectCurrency()"
+                        [ngClass]="{'is-invalid':submitted && productDefinationGroup.get('productCurrency').errors}">
+                        <option value="">Select</option>
+                        <option *ngFor="let data of productCurrency" value="{{data.countryCurrency}}">
+                            {{data.countryCurrency +"~"+data.countryCurrencyDesc }}</option>
+                    </select>
+                    <div *ngIf="submitted && productDefinationGroup.get('productCurrency').errors "
+                        class="invalid-feedback ">
+                        <div *ngIf="productDefinationGroup.get('productCurrency').errors.required ">Product Currency
+                            should not be empty.</div>
+                    </div>
+                </div>
+                <div class="col-md-2 col-sm-12">
+                    <label class="select-label">Currency Description <span class="red">*</span></label>
+                </div>
+                <div class="col-md-4 col-sm-12">
+                    <input type="text" class="form-control br" formControlName="currencyDescription" readonly />
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-2 col-sm-12">
+                    <label class="select-label">Service Code <span class="red">*</span></label>
+                </div>
+                <div class="col-md-4 col-sm-12">
+                    <input type="text" formControlName="serviceCode" maxlength="3" class="form-control br" [ngClass]="{'is-invalid': submitted && productDefinationGroup.get('serviceCode').errors}"/>
+                    <div *ngIf="submitted &&  productDefinationGroup.get('serviceCode').errors " class="invalid-feedback ">
+                    <div *ngIf="productDefinationGroup.get('serviceCode').errors.required ">Service Code should not be empty.</div>
+</div>
+                </div>
+                <div class="col-md-2 col-sm-12">
+                    <label class="select-label">PIN Try Limit <span class="red">*</span></label>
+                </div>
+                <div class="col-md-4 col-sm-12">
+                    <select class="form-control br" formControlName="pinTryLimit"  [ngClass]="{'is-invalid': submitted && productDefinationGroup.get('pinTryLimit').errors}">
+                        <option value="">Select</option>
+                        <option value="3">3</option>
+                        <option value="5">5</option>
+                    </select>
+                    <div *ngIf="submitted &&  productDefinationGroup.get('pinTryLimit').errors " class="invalid-feedback ">
+                            <div *ngIf="productDefinationGroup.get('pinTryLimit').errors.required ">PIN Try Limit should not be empty.</div>
+        </div>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-2 col-sm-12">
+                    <label class="select-label">Card Generation Method <span class="red">*</span></label>
+                </div>
+                <div class="col-md-4 col-sm-12">
+                    <select class="form-control br" formControlName="cardGenerationMethod" [ngClass]="{'is-invalid': submitted && productDefinationGroup.get('cardGenerationMethod').errors}">
+                        <option value="">Select</option>
+                        <option value="Sequential">Sequential</option>
+                    </select>
+                    <div *ngIf="submitted &&  productDefinationGroup.get('cardGenerationMethod').errors " class="invalid-feedback ">
+                            <div *ngIf="productDefinationGroup.get('cardGenerationMethod').errors.required ">Card Generation Method should not be empty.</div>
+        </div>
+
+                </div>
+                <div class="col-md-2 col-sm-12">
+                    <label class="select-label">Card Embossing & Encoding <span class="red">*</span></label>
+                </div>
+                <div class="col-md-4 col-sm-12">
+                    <select class="form-control br" formControlName="cardEmbossing"  [ngClass]="{'is-invalid': submitted && productDefinationGroup.get('cardEmbossing').errors}">
+                        <option value="">Select</option>
+                        <option value="Thermal Embossing">Thermal Embossing</option>
+                        <option value="Raise Emboss">Raise Emboss</option>
+                    </select>
+                    <div *ngIf="submitted &&  productDefinationGroup.get('cardEmbossing').errors " class="invalid-feedback ">
+                            <div *ngIf="productDefinationGroup.get('cardEmbossing').errors.required ">Card Embossing should not be empty.</div>
+        </div>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-2 col-sm-12">
+                    <label class="select-label">PIN Delivery Method <span class="red">*</span></label>
+                </div>
+                <div class="col-md-4 col-sm-12">
+                    <select class="form-control br" formControlName="pinDeliveryMethod" [ngClass]="{'is-invalid': submitted && productDefinationGroup.get('pinDeliveryMethod').errors}">
+                        <option value="">Select</option>
+                        <option value="By Post">By Post</option>
+                        <option value="By Secure Email">By Secure Email</option>
+                        <option value="Customer Initiated">Customer Initiated</option>
+                    </select>
+                    <div *ngIf="submitted &&  productDefinationGroup.get('pinDeliveryMethod').errors " class="invalid-feedback ">
+                            <div *ngIf="productDefinationGroup.get('pinDeliveryMethod').errors.required ">PIN Delivery Method should not be empty.</div>
+        </div> 
+                </div>
+
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-2 col-sm-12">
+                    <label class="select-label">Card Expiry Method <span class="red">*</span></label>
+                </div>
+                <div class="col-md-4 col-sm-12">
+                    <select class="form-control br" formControlName='cardExpiryMethod' (change)="selectCriteria()" [ngClass]="{'is-invalid': submitted && productDefinationGroup.get('cardExpiryMethod').errors}">
+                        <option value="">Select</option>
+                        <option value="Fixed Date">Fixed Date</option>
+                        <option value="Variable Method">Variable Method</option>
+                    </select>
+                    <div *ngIf="submitted &&  productDefinationGroup.get('cardExpiryMethod').errors " class="invalid-feedback ">
+                            <div *ngIf="productDefinationGroup.get('cardExpiryMethod').errors.required ">PIN Delivery Method should not be empty.</div>
+        </div> 
+
+                </div>
+
+
+
+                <div class="col-md-2 col-sm-12 " *ngIf="isFixedDate">
+
+                    <div class="">
+                        <label class="select-label1">Expiry Period<span class="red ">*</span></label>
+                    </div>
+
+                </div>
+                <div class="col-md-4 col-sm-12" *ngIf="isFixedDate">
+                    <div class="">
+                        <input type="date" class="form-control br" formControlName='expiryMonth'
+                            [ngClass]="{ 'is-invalid':submitted && productDefinationGroup.get('expiryMonth').errors}" />
+                        <div *ngIf="submitted && productDefinationGroup.get('expiryMonth').errors "
+                            class="invalid-feedback ">
+                            <div *ngIf="productDefinationGroup.get('expiryMonth').errors.required ">Expiry Period should
+                                not be
+                                empty.</div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div class="col-md-2 col-sm-12 " *ngIf="isVariableDate">
+
+                    <div class="">
+                        <label class="select-label1">Expiry Period(Months) <span class="red ">*</span></label>
+                    </div>
+
+                </div>
+                <div class="col-md-4 col-sm-12" *ngIf="isVariableDate">
+                    <div class="">
+                        <input type="number" maxlength="2" class="form-control br" formControlName='variableExpiryPeriod'
+                            [ngClass]="{ 'is-invalid':submitted && productDefinationGroup.get('variableExpiryPeriod').errors}" />
+                        <div *ngIf="submitted && productDefinationGroup.get('variableExpiryPeriod').errors "
+                            class="invalid-feedback ">
+                            <div *ngIf="productDefinationGroup.get('variableExpiryPeriod').errors.required ">Expiry
+                                Date should not be
+                                empty.</div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row mb-3">
+                <div class="col-md-2 col-sm-12">
+                    <label class="select-label">Embossing Template ID <span class="red">*</span></label>
+                </div>
+                <div class="col-md-4 col-sm-12">
+                    <select class="form-control br" formControlName= "embossingTemplateId"  [ngClass]="{ 'is-invalid':submitted && productDefinationGroup.get('embossingTemplateId').errors}">
+                        <option value="">Select</option>
+                        <option value="NEWTRL-NZ Travel">NEWTRL-NZ Travel</option>
+                        <option value="NEWGFT-NZ Gift">NEWGFT-NZ Gift</option>
+                    </select>
+                    <div *ngIf="submitted &&  productDefinationGroup.get('embossingTemplateId').errors " class="invalid-feedback ">
+                            <div *ngIf="productDefinationGroup.get('embossingTemplateId').errors.required ">Embossing Template ID should not be empty.</div>
+        </div>  
+                </div>
+                <div class="col-md-2 col-sm-12">
+                    <label class="select-label">Replacement Template ID <span class="red">*</span></label>
+                </div>
+                <div class="col-md-4 col-sm-12">
+                    <select class="form-control br" formControlName= "replacementTemplateId"  [ngClass]="{ 'is-invalid':submitted && productDefinationGroup.get('replacementTemplateId').errors}">
+                        <option value="">Select</option>
+                        <option value="NEWTRL-NZ Travel">NEWTRL-NZ Travel</option>
+                        <option value="NEWGFT-NZ Gift">NEWGFT-NZ Gift</option>
+                    </select>
+                    <div *ngIf="submitted &&  productDefinationGroup.get('replacementTemplateId').errors " class="invalid-feedback ">
+                            <div *ngIf="productDefinationGroup.get('replacementTemplateId').errors.required ">Replacement Template ID should not be empty.</div>
+        </div>   
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-2 col-sm-12">
+                    <label class="select-label">Welcome Pack Template <span class="red">*</span></label>
+                </div>
+                <div class="col-md-4 col-sm-12">
+                    <select class="form-control br" formControlName= "welcomeTemplate" [ngClass]="{ 'is-invalid':submitted && productDefinationGroup.get('welcomeTemplate').errors}">
+                        <option value="">Select</option>
+                        <option value="WELPKTMP01-Welcome Pack Template One">WELPKTMP01-Welcome Pack Template One
+                        </option>
+                        <option value="WELPKTMP02-Welcome Pack Template Two">WELPKTMP02-Welcome Pack Template Two
+                        </option>
+                        <option value="WELPKTMP03-Welcome Pack Template Three">WELPKTMP03-Welcome Pack Template Three
+                        </option>
+                        <option value="EWBWELTMP-EWB Welcome Pack Template">EWBWELTMP-EWB Welcome Pack Template</option>
+                    </select>
+                    <div *ngIf="submitted &&  productDefinationGroup.get('welcomeTemplate').errors " class="invalid-feedback ">
+                            <div *ngIf="productDefinationGroup.get('welcomeTemplate').errors.required ">Welcome Template should not be empty.</div>
+        </div>   
+
+                </div>
+
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-2 col-sm-12">
+                    <label class="select-label">Do you need statement? <span class="red">*</span></label>
+                </div>
+                <div class="col-md-4 col-sm-12">
+                    <input class="form-check-input ml-1 mt-4" type="checkbox" value="" id="defaultCheck1"
+                        (click)="showDeliveryMethod()">
+                </div>
+                <div class="col-md-2 col-sm-12 " *ngIf="deliveryChcek">
+
+                    <div class="">
+                        <label class="select-label1">Delivery Method<span class="red ">*</span></label>
+                    </div>
+
+                </div>
+                <div class="col-md-4 col-sm-12" *ngIf="deliveryChcek">
+                    <div class="">
+                        <select class="form-control br" formControlName='deliverMethod'
+                            [ngClass]="{ 'is-invalid':submitted && productDefinationGroup.get('deliverMethod').errors}">
+                            <option value="">Select</option>
+                            <option value="By Post">By Post</option>
+                            <option value="By Email">By Email</option>
+                        </select>
+                        <div *ngIf="submitted && productDefinationGroup.get('deliverMethod').errors "
+                            class="invalid-feedback ">
+                            <div *ngIf="productDefinationGroup.get('deliverMethod').errors.required ">Delivery Method
+                                should
+                                not be
+                                empty.</div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label class="col-md-12 mb-4">Issuing Currency Country <span class="red">*</span></label>
+                <div class="dual-list list-left col-md-5">
+
+                    <select class="form-control select" formControlName="countryCurrencyListDB" multiple
+                        style="height:200px;">
+                        <option *ngFor="let data of currencyCountryList" value="{{data.cmsBinCurrency}}">
+                            {{data.cmsBinCurrency}}</option>
+                    </select>
+
+                </div>
+
+                <div class="list-arrows col-md-2 text-center">
+                    <button type="button" class="btn btn1 shadow1 btnSubmit bg-color text-white btn-block filled move-left"
+                        (click)="removeToList()">
+                        <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    </button>
+
+                    <button type="button" class="btn btn1 shadow1 btnSubmit bg-color text-white btn-block filled move-right"
+                        (click)="addToList()">
+                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                    </button>
+                </div>
+
+                <div class="dual-list list-right col-md-5">
+                    <select class="form-control select" formControlName="countryCurrencyList" multiple
+                        style="height:200px;" [ngClass]="{ 'is-invalid':submitted && productDefinationGroup.get('countryCurrencyListDB').errors}">
+                        <option *ngFor="let data of currencyCountryLists" value="{{data}}">
+                            {{data}}</option>
+                    </select>
+                    <div *ngIf="submitted && productDefinationGroup.get('countryCurrencyListDB').errors " class="invalid-feedback ">
+                            <div *ngIf="productDefinationGroup.get('countryCurrencyListDB').errors.required ">Issuing Country should not be empty.</div>
+                        </div>
+
+                </div>
+
+            </div>
+
+            <div class="row mt-3 mb-4">
+                <label class="col-md-12 mb-4">Card Activation Group <span class="red">*</span></label>
+                <div class="dual-list list-left col-md-5">
+                    <select class="form-control select" formControlName="cardActivationGroupAdd" multiple
+                        style="height:200px;">
+                        <option value="ATM">ATM</option>
+                        <option value="IVR">IVR</option>
+                        <option value="Call Center">Call Center</option>
+                        <option value="Internet Banking">Internet Banking</option>
+                        <option value="File Upload">File Upload</option>
+                        <option value="Card Activation">Card Activation</option>
+                        <option value="Customer Registration">Customer Registration</option>
+                        <option *ngFor="let data of cardActivation" value="{{data.cardActivation}}">
+                            {{data.cardActivation}}</option>
+                    </select>
+
+                </div>
+
+                <div class="list-arrows col-md-2 text-center">
+                    <button type="button" class="btn btn1 shadow1 btnSubmit bg-color text-white btn-block filled move-left"
+                        (click)="removeCard()">
+                        <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    </button>
+
+                    <button type="button" class="btn btn1 shadow1 btnSubmit bg-color text-white btn-block filled move-right"
+                        (click)="addCard()">
+                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                    </button>
+                </div>
+
+                <div class="dual-list list-right col-md-5">
+                    <select class="form-control select" formControlName="cardActivationRemove" multiple
+                        style="height:200px;" [ngClass]="{ 'is-invalid':submitted && productDefinationGroup.get('cardActivationGroupAdd').errors}">
+                        <option *ngFor="let data of cardActivationList" value="{{data}}">
+                            {{data}}</option>
+                    </select>
+
+                    <div *ngIf="submitted && productDefinationGroup.get('cardActivationGroupAdd').errors " class="invalid-feedback ">
+                            <div *ngIf="productDefinationGroup.get('cardActivationGroupAdd').errors.required ">Card Activation Group should not be empty.</div>
+                        </div>
+                        
+                </div>
+
+            </div>
+            <h5 class="text-color pt-2 pb-3">Product to BIN Group Linkage</h5>
+            <hr>
+            <div>
+            <div class="row mt-4">
+
+                <div class="col-md-2 col-sm-12">
+                    <label class="select-label">BIN Group <span class="red">*</span></label>
+                </div>
+                <div class="col-md-4 col-sm-12">
+                    <select class="form-control br" formControlName="binGroup" (change)="selectBinGroup()"
+                        [ngClass]="{'is-invalid':submitted && productDefinationGroup.get('binGroup').errors}">
+                        <option value="">Select</option>
+                        <option *ngFor="let data of binGroupDefination" value="{{data.binGroupId}}">
+                            {{data.binGroupCode}}</option>
+                    </select>
+                    <div *ngIf="submitted && productDefinationGroup.get('binGroup').errors " class="invalid-feedback ">
+                        <div *ngIf="productDefinationGroup.get('binGroup').errors.required ">Bin Group should not be
+                            empty.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-4">
+
+                <div class="col-md-2 col-sm-12">
+                    <label class="select-label">BIN Currency <span class="red">*</span></label>
+                </div>
+                <div class="col-md-4 col-sm-12">
+                    <input type="text" formControlName="binCurrency" class="form-control br" readonly />
+                </div>
+                <div class="col-md-2 col-sm-12">
+                    <label class="select-label">BIN Description <span class="red">*</span></label>
+                </div>
+                <div class="col-md-4 col-sm-12">
+                    <input type="text" formControlName="binGroupDescription" class="form-control br" readonly />
+                </div>
+            </div>
+
+            <div class="row mt-4">
+
+                <div class="col-md-2 col-sm-12">
+                    <label class="select-label">BIN Range From <span class="red">*</span></label>
+                </div>
+                <div class="col-md-4 col-sm-12">
+                    <input type="text" formControlName="binRangeFrom" class="form-control br" readonly />
+                </div>
+                <div class="col-md-2 col-sm-12">
+                    <label class="select-label">BIN Range To <span class="red">*</span></label>
+                </div>
+                <div class="col-md-4 col-sm-12">
+                    <input type="text" formControlName="binrangeTo" class="form-control br" readonly />
+                </div>
+            </div>
+        </div>
+            <div class="row mt-3 mb-4">
+                <label class="col-md-12 mb-4">Plastic Code <span class="red">*</span></label>
+                <div class="dual-list list-left col-md-5">
+                    <select class="form-control select" formControlName="plasticCodeAdd" multiple style="height:200px;">
+                        <option *ngFor="let data of plasticCodes" value="{{data}}">{{data}}</option>
+                    </select>
+                </div>
+
+                <div class="list-arrows col-md-2 text-center">
+                    <button type="button" class="btn btn1 shadow1 btnSubmit bg-color text-white btn-block filled move-left" (click)="removePlasticCode()">
+                        <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    </button>
+
+                    <button type="button" class="btn btn1 shadow1 btnSubmit bg-color text-white btn-block filled move-right" (click)="addPlasticCode()">
+                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                    </button>
+                </div>
+
+                <div class="dual-list list-right col-md-5">
+                    <select class="form-control select" formControlName="plasticCodeRemove" multiple style="height:200px;" [ngClass]="{'is-invalid':submitted && productDefinationGroup.get('plasticCodeAdd').errors}">
+                     <option *ngFor="let data of plasticCodeList"  value="{{data}}">{{data}}</option>      
+                    </select>
+                    <div *ngIf="submitted && productDefinationGroup.get('plasticCodeAdd').errors " class="invalid-feedback ">
+                            <div *ngIf="productDefinationGroup.get('plasticCodeAdd').errors.required ">Plastic Code should not be
+                                empty.
+                            </div>
+                        </div>
+
+                </div>
+            </div>
+
+            <div class="col-md-12 text-center mt-5 mb-4">
+                <input class="btn btn1 shadow1 btnSubmit bg-color text-white" type="button" value="Add" (click)="addToTable()">
+            </div>
+            <div class="table-responsive mt-4">
+                <table class="table table-striped table-bordered table-hover text-center">
+                    <thead class="thead-dark bg-color text-white">
+                        <tr>
+                            <th scope="col">BIN Group</th>
+                            <th scope="col">BIN Description</th>
+                            <th scope="col">Plastic Code</th>
+                            <th scope="col">Remove</th>
+                        </tr>
+                    </thead>
+                    <tbody formArrayName="productDefinationArrayGroup" *ngFor="let r of productDefinationGroup.get('productDefinationArrayGroup').controls;index as i">
+                    <tr [formGroupName]="i" class="form-group">
+
+                            <input type="hidden" formControlName="productCode">
+                            <input type="hidden" formControlName="productName">
+                            <input type="hidden" formControlName="productDescription">
+                            <input type="hidden" formControlName="pairCards">
+                            <input type="hidden" formControlName="applicationType">
+                            <input type="hidden" formControlName="programType">
+                            <input type="hidden" formControlName="programDescription">
+                            <input type="hidden" formControlName="productCurrency">
+                            <input type="hidden" formControlName="currencyDescription">
+                            <input type="hidden" formControlName="serviceCode">
+                            <input type="hidden" formControlName="pinTryLimit">
+                            <input type="hidden" formControlName="cardGenerationMethod">
+                            <input type="hidden" formControlName="cardExpiryMethod">
+                            <input type="hidden" formControlName="deliverMethod">
+                            <input type="hidden" formControlName="expiryMonth">
+                            <input type="hidden" formControlName="binCurrency">
+                            <input type="hidden" formControlName="binRangeFrom">
+                            <input type="hidden" formControlName="binrangeTo">
+                            <input type="hidden" formControlName="pinDeliveryMethod">
+                            <input type="hidden" formControlName="variableExpiryPeriod">
+                            <input type="hidden" formControlName="embossingTemplateId">
+                            <input type="hidden" formControlName="replacementTemplateId">
+                            <input type="hidden" formControlName="welcomeTemplate">
+                            <input type="hidden" formControlName="cardEmbossing">
+                            <!-- <input type="hidden" formControlName="issuingCurrencyCountry"> -->
+                            <input type="hidden" formControlName="countryCurrencyListDB">
+                            <input type="hidden" formControlName="countryCurrencyList">
+                            <input type="hidden" formControlName="cardActivationGroupAdd">
+                            <input type="hidden" formControlName="cardActivationRemove">
+                            <input type="hidden" formControlName="plasticCodeRemove">
+                            <input type="hidden" formControlName="insertedBy">
+                            <input type="hidden" formControlName="insertedDate">
+                            <input type="hidden" formControlName="modifiedBy">
+                            <input type="hidden" formControlName="modifiedDate">
+                            <input type="hidden" formControlName="plasticCode">
+
+                            <td><input type="text" class="form-control text-center" style="border: none;" formControlName="binGroup" readonly></td>
+                            <td><input type="text" class="form-control text-center" style="border: none;" formControlName="binGroupDescription" readonly></td>
+                            <td><input type="text" class="form-control text-center" style="border: none;" formControlName="plasticCodeAdd" readonly></td>
+                            <td><input type="button" value="remove" (click)="remove(i)"></td>
+                    </tr>
+                </tbody>
+                </table>
+            </div>
+            <div class="col-md-12 text-center mt-5">
+                <input type="button" class="btn btn1 shadow1 btnSubmit bg-color text-white" value="Cancel" />
+                <input type="submit" class="btn btn1 shadow1 btnSubmit bg-color text-white ml-2" value="Submit" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="modal" id="success" role="dialog">
+        <div class="modal-dialog modal-dialog-centered">
+        
+        <!-------------------------------------------------------->
+        <!-------------------------------------------------------->
+        <!-------------------------------------------------------->
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header bg-info">
+                <h3 class="text-light">Success</h3>
+                <button type="button" class="close" (click)="closeProductDefination()" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <h4>{{success}}</h4>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-info" data-dismiss="modal" (click)="closeProductDefination()">Close</button>
+            </div>
+        </div>
+        
+        </div>
+        </div>
+        
+        <div class="modal" id="error" role="dialog">
+        <div class="modal-dialog modal-dialog-centered">
+        
+        <!-------------------------------------------------------->
+        <!-------------------------------------------------------->
+        <!-------------------------------------------------------->
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header bg-danger">
+                <h3 class="text-light">Error</h3>
+                <button type="button" class="close" (click)="closeProductDefination()" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <h4>{{success}}</h4>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="closeProductDefination()">Close</button>
+            </div>
+        </div>
+        
+        </div>
+        </div>

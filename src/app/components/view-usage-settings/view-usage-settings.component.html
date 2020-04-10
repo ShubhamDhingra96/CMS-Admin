@@ -1,0 +1,437 @@
+<div class="container pl-30 pr-30" >
+  <h2 class="">View Usage Settings</h2>
+  <div class="dash-line"></div>
+  <p class="text-right pt-3" *ngIf="selectForm"><span class="red">*</span> All Fields are mandatory</p>
+  <div class="shadow1 mt-5 pt-4 pb-5 pl-30 pr-30" *ngIf="selectForm">
+    <h5 class="text-color pt-2">Usage Settings Definition</h5>
+    <hr>
+    <form [formGroup]="UsageSettingFormGroup">
+      <div class="row mb-3 mt-4 pt-2">
+
+        <div class="col-md-2 col-sm-12">
+          <div class="">
+            <label class="select-label1">Select Usage Type <span class="red">*</span></label>
+          </div>
+        </div>
+
+        <div class="col-md-4 col-sm-12">
+          <div class="">
+            <select class="form-control br" formControlName="usageType" (change)="selectUsageSetting()" [ngClass]="{ 'is-invalid':submitted && cardUsageGroup.get('usageType').errors}">
+              <option value="">Select</option>
+              <option value="0">Country</option>
+              <option value="1">DeliveryChannel</option>
+              <option value="2">Acquiring Network</option> -->
+              <option value="3">Card Usage Setting</option>
+              <option value="4">Merchant Category</option>
+              <option value="5">Limit Management</option>
+              <option value="6">Fee Management</option>
+              <option value="7">Alert Setting</option>
+            </select>
+            <div *ngIf="submitted && cardUsageGroup.get('usageType').errors " class="invalid-feedback ">
+              <div *ngIf="cardUsageGroup.get('usageType').errors.required ">Usage type should not be empty.</div>
+          </div>
+          </div>
+        </div>
+
+        <div class="col-md-2 col-sm-12">
+          <div class="">
+            <label class="select-label1">Usage Code<span class="red">*</span></label>
+          </div>
+        </div>
+
+
+        <div class="col-md-4 col-sm-12">
+          <div class="">
+            <select class="form-control" formControlName="code" [ngClass]="{ 'is-invalid':submitted && cardUsageGroup.get('usageType').errors}">
+              <option value="">Select</option>
+              <option *ngFor="let c of code" value="{{c.settingId}}">{{c.settingName}}</option>
+            </select>
+            <div *ngIf="submitted && cardUsageGroup.get('code').errors " class="invalid-feedback ">
+              <div *ngIf="cardUsageGroup.get('code').errors.required ">Usage Code should not be empty.</div>
+          </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="col-md-12 text-center mt-5 mb-4">
+        <input type="button" class="btn btn1 shadow1 btnSubmit bg-color text-white" value="View" (click)="view()">
+      </div>
+    </form>
+  </div>
+
+
+
+<!-- Acquiring netwotk View  -->
+
+<div class="container pl-30 pr-30" *ngIf="isAcquiringNetwork">
+    <h5 class="text-color pt-2">Acquiring Network Detail</h5>
+    <hr>
+  <div class="shadow1 mt-5 pt-4 pb-5 pl-30 pr-30" *ngFor="let data of ViewData; index as i">
+    <h5 class="text-color pt-2">Delivery Channel Group Details</h5>
+    <hr>
+    <form>
+      <div class="table-responsive" >
+        <table class="table table-borderless">
+          <tr>
+            <th colspan="4" class="bg-dark text-light">{{i+1}}).</th>
+          </tr>
+          <tr>
+            <th scope="col">Group code</th>
+            <td>{{data.groupCode}}</td>
+            <th scope="col">Group Name</th>
+            <td>{{data.groupName}}</td>
+          </tr>
+
+
+          <tr>
+            <th scope="col"> Group Description</th>
+            <td>{{data.groupDescription}}</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+          </tr>
+
+        </table>
+      </div>
+
+      <h5 class="text-color pt-2">Delivery Channel Settings</h5>
+      <hr>
+      <div class="row mb-3 mt-4">
+        <div class="col-md-4 col-sm-12">
+          <div class="">
+            <label class="font-weight-bold color-black pl-2">Delivery Channel</label>
+          </div>
+
+        </div>
+        <div class="col-md-4 col-sm-12">
+          <div class="pl-2">
+            <label class="font-weight-bold color-black">MerchantId</label>
+          </div>
+          <div class="pl-2">
+            <label class="font-weight-bold color-black">Location</label>
+          </div>
+        </div>
+      </div>
+      <div class="row mb-3">
+        <div class="col-md-4 col-sm-12">
+          <div class="pl-2">
+            <p>{{data.deliveryChannelName}}</p>
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-12">
+          <div class="pl-2">
+            <p>{{data.merchantId}}</p>
+          </div>
+          <div class="col-md-4 col-sm-12">
+            <div class="pl-2">
+              <p>{{data.location}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-12 text-center mt-5 mb-4">
+          <input type="button" class="btn btn1 shadow1 btnSubmit bg-color text-white" value="Cancel" (click)="cancel()">
+        </div>
+    </form>
+  </div>
+</div>
+
+<!--Card Usage View -->
+
+
+<div class="shadow1 mt-5 pt-4 pb-5 pl-30 pr-30" *ngIf="isCardUsage">
+  <h5 class="text-color pt-2">card Usage Group Details</h5>
+  <hr>
+  <form>
+    <div class="table-responsive" *ngFor="let data of ViewData; index as i">
+      <table class="table table-bordered">
+
+        <tr>
+          <th colspan="4" class="bg-dark text-light">{{i+1}}).</th>
+        </tr>
+        <tr>
+          <th scope="col">Group code</th>
+          <td>{{data.groupCode}}</td>
+          <th scope="col">Group Name</th>
+          <td>{{data.groupName}}</td>
+        </tr>
+        <tr>
+          <th scope="col"> Group Description</th>
+          <td>{{data.groupDesc}}</td>
+          <th scope="col">Transaction Amount</th>
+          <td>{{data.transactionAmount}}</td>
+        </tr>
+        <tr>
+          <th colspan="2" class="text-center">Transaction Description</th>
+          <td colspan="2" class="text-center">{{data.description}}</td>
+        </tr>
+
+      </table>
+      <hr style="border:1px solid gray;">
+    </div>
+    <div class="col-md-12 text-center mt-5 mb-4">
+        <input type="button" class="btn btn1 shadow1 btnSubmit bg-color text-white" value="Cancel" (click)="cancel()">
+      </div>
+  </form>
+</div>
+
+
+<!--Country Group View -->
+
+<div class="shadow1 mt-5 pt-4 pb-5 pl-30 pr-30" *ngIf="isCountry">
+    <h5 class="text-color pt-2">Country Group Details</h5>
+    <hr>
+    <form>
+        <div class="table-responsive">
+            <table class="table table-borderless">
+
+                <tr>
+                    <td class="font-weight-bold">Group code</td>
+                    <td>{{ViewData[0].groupCode}}</td>
+                    <td class="font-weight-bold">Group Name</td>
+                    <td>{{ViewData[0].groupName}}</td>
+                </tr>
+
+                <tr>
+                    <td class="font-weight-bold"> Group Description</td>
+                    <td>{{ViewData[0].groupDescription}}</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+            </table>
+        </div>
+        <h5 class="text-color pt-2">Country List</h5>
+        <hr>
+        <div class="row mb-3 mt-4">
+            <div class="col-md-4 col-sm-12">
+                <div class="">
+                    <label class="font-weight-bold color-black pl-2">Selected Countries</label>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-12">
+                <div class="pl-2">
+                    <p style="padding: 1px;border-bottom: 1px solid gray">{{ViewData[0].groupCompanyList}}</p>
+
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12 text-center mt-5 mb-4">
+            <input type="button" class="btn btn1 shadow1 btnSubmit bg-color text-white" value="Cancel" (click)="cancel()">
+          </div>
+    </form>
+</div>
+
+<!--DeliveryChannel Group View -->
+
+<div class="container pl-30 pr-30" *ngIf="isDeliveryChannel">
+    <h2 class="">Usage Settings</h2>
+    <hr>
+
+    <div class="shadow1 mt-5 pt-4 pb-5 pl-30 pr-30" *ngFor="let data of ViewData">
+        <h5 class="text-color pt-2">Delivery Channel Group Details</h5>
+        <hr>
+        <form>
+            <div class="table-responsive ">
+                <table class="table table-borderless">
+
+                    <tr>
+                        <th scope="col">Group code</th>
+                        <td>{{data.groupCode}}</td>
+                        <th scope="col">Group Name</th>
+                        <td>{{data.groupName}}</td>
+                    </tr>
+
+
+                    <tr>
+                        <th scope="col"> Group Description</th>
+                        <td>{{data.groupDescription}}</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tr>
+
+                </table>
+            </div>
+
+            <h5 class="text-color pt-2">Delivery Channel Settings</h5>
+            <hr>
+            <div class="row mb-3 mt-4">
+                <div class="col-md-4 col-sm-12">
+                    <div class="">
+                        <label class="font-weight-bold color-black pl-2">Delivery Channel</label>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-12">
+                    <div class="pl-2">
+                        <label class="font-weight-bold color-black">Transactions</label>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-4 col-sm-12">
+                    <div class="pl-2">
+                        <p>{{data.deliveryChannel}}</p>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-12">
+                    <div class="pl-2">
+                        <p>{{data.transactionChannel}}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12 text-center mt-5 mb-4">
+                <input type="button" class="btn btn1 shadow1 btnSubmit bg-color text-white" value="Cancel" (click)="cancel()">
+              </div>
+        </form>
+    </div>
+    
+
+
+</div>
+
+<!--Merchant Category Group View -->
+
+<div class="shadow1 mt-5 pt-4 pb-5 pl-30 pr-30" *ngIf="isMerchantCategory">
+    <h5 class="text-color pt-2">Merchant Category Group Details</h5>
+    <hr>
+    <form>
+        <div class="table-responsive" *ngFor="let data of ViewData; index as i">
+            <table class="table table-bordered">
+                <tr>
+                    <th colspan="4" class="bg-dark text-light">{{i+1}}).</th>
+                </tr>
+                <tr>
+                    <th scope="col">Group code</th>
+                    <td>{{data.merchantGroupCode}}</td>
+                    <th scope="col">Group Name</th>
+                    <td>{{data.merchantGroupName}}</td>
+                </tr>
+                <tr>
+                    <th scope="col"> Group Description</th>
+                    <td>{{data.merchantGroupDescription}}</td>
+                    <th scope="col">Network Type</th>
+                    <td>{{data.merchantNetworkType}}</td>
+                </tr>
+                <tr>
+                    <th colspan="2" class="text-center">Merchant Category Code Settings</th>
+                </tr>
+                <tr>
+                    <th class="text-center">MCC Group</th>
+                    <th class="text-center">MCC Code</th>
+                </tr>
+                <tr>
+                    <td class="text-center">{{data.merchantMCCGroup}}</td>
+                    <td class="text-center">{{data.merchantGroupCode}}</td>
+                </tr>
+            </table>
+            <hr style="border:1px solid gray;">
+        </div>
+        <div class="col-md-12 text-center mt-5 mb-4">
+            <input type="button" class="btn btn1 shadow1 btnSubmit bg-color text-white" value="Cancel" (click)="cancel()">
+          </div>
+    </form>
+
+</div>
+
+  <!-- Confirm Default LimitManagement setting -->
+
+
+  <div class="shadow1 mt-5 pt-4 pb-5 pl-30 pr-30" *ngIf="isLimitManagement">
+    <h5 class="text-color pt-2">Usage Settings - View Default Settings-Confirm</h5>
+    <hr>
+    <form>
+        <div class="table-responsive" *ngFor="let data of ViewData; index as i">
+            <table class="table table-bordered">
+                <tr>
+                    <th colspan="10" class="bg-dark text-light">{{i+1}}).</th>
+                </tr>
+                <tr>
+                    <th colspan="3" scope="col">Limit Code</th>
+                    <td>{{data.limitCode}}</td>
+                    <th colspan="2" scope="col">Limit Name</th>
+                    <td>{{data.limitName}}</td>
+                </tr>
+                <tr>
+                    <th colspan="10" class="text-center">Default Limit Settings</th>
+                </tr>
+                <tr>
+                  <th scope="col">Transaction</th>
+                  <th scope="col">Frequency</th>
+                  <th scope="col">Level Check</th>
+                  <th scope="col">Maximum Count</th>
+                  <th scope="col">Currency</th>
+                  <th scope="col">Minimum Amount</th>
+                  <th scope="col">Maximum Amount</th>
+                </tr>
+                <tr>
+                  <td>{{data.transaction}}</td>
+                  <td>{{data.frequency}}</td>
+                  <td>{{data.levelCheck}}</td>
+                  <td>{{data.maxCount}}</td>
+                  <td>{{data.currency}}</td>
+                  <td>{{data.minAmount}}</td>
+                  <td>{{data.maxAmount}}</td>
+                </tr>
+            </table>
+            <hr style="border:1px solid gray;">
+        </div>
+        <div class="col-md-12 text-center mt-5 mb-4">
+            <input type="button" class="btn btn1 shadow1 btnSubmit bg-color text-white" value="Cancel" (click)="cancel()">
+          </div>
+    </form>
+
+</div>
+
+
+
+
+
+<!-- Fee Management frontend view  -->
+
+<div class="shadow1 mt-5 pt-4 pb-5 pl-30 pr-30" *ngIf="isFeeManagement">
+  <h5 class="text-color pt-2">Usage Settings - View Default Settings-Confirm</h5>
+  <hr>
+  <form>
+      <div class="table-responsive" *ngFor="let data of ViewData; index as i">
+          <table class="table table-bordered">
+              <tr>
+                  <th colspan="10" class="bg-dark text-light">{{i+1}}).</th>
+              </tr>
+              <tr>
+                  <th colspan="3" scope="col">Fees Code</th>
+                  <td>{{data.feeCode}}</td>
+                  <th colspan="2" scope="col">Fees Description</th>
+                  <td>{{data.feeDescription}}</td>
+              </tr>
+              <tr>
+                  <th colspan="10" class="text-center">Default Fees Settings</th>
+              </tr>
+              <tr>
+                <th scope="col">Transaction</th>
+                <th scope="col">Flat %</th>
+                <th scope="col">Limit</th>
+                <th scope="col">Line Item</th>
+                
+              </tr>
+              <tr>
+                <td>{{data.transaction}}</td>
+                <td>{{data.perFlat}}</td>
+                <td>{{data.limit}}</td>
+                <td>{{data.seperateLine}}</td>
+              </tr>
+          </table>
+          <hr style="border:1px solid gray;">
+      </div>
+      <div class="col-md-12 text-center mt-5 mb-4">
+        <input type="button" class="btn btn1 shadow1 btnSubmit bg-color text-white" value="Cancel" (click)="cancel()">
+
+        </div>
+  </form>
+
+</div>
+
+
+
+
+
+
+

@@ -1,0 +1,65 @@
+<div class="container pl-30 pr-30" *ngIf="isEntity">
+    <h2 class="">Bin Setup Details</h2>
+    <div class="dash-line"></div>
+    <div class="shadow1 mt-5 pt-4 pb-5 pl-30 pr-30">
+        <div class="container row">
+            <div class="col-md-5"></div>
+            <div class="col-md-7 row">
+                <div class="col-md-6">
+                    <div class="form-group" [formGroup]="selectEntityForm">
+                        <label for="entity">Select Entity : </label>
+                        <select class="form-control" formControlName="entity" (change)="selectEntity()">
+                              <option value="">Select</option>
+                              <option *ngFor="let r of entity" value="{{r.username}}">{{r.username}}</option>
+                            </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row col-md-12 alert alert-info text-center" role="alert" *ngIf="show">
+            <strong> {{errorMessage}} </strong>
+        </div>
+    </div>
+</div>
+
+<div class="container pl-30 pr-30" *ngIf="isView">
+    <h2 class="">Bin Setup-View</h2>
+    <div class="dash-line"></div>
+    <h5 class="text-color mt-4 mb-4">Bin Details</h5>
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered table-hover text-center">
+            <thead class="thead-dark bg-color text-white">
+                <tr>
+                    <th scope="col">BIN Details</th>
+                    <th scope="col">BIN Description</th>
+                    <th scope="col">BIN Currency</th>
+                    <th scope="col">Settlement Currency</th>
+                    <th scope="col">BIN Type</th>
+                    <th scope="col">BIN Digits</th>
+                    <th scope="col">BIN Issuer</th>
+                    <th scope="col">Check Parity</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let user of binSetupData">
+                    <td>{{user.cmsBinNumber}}</td>
+                    <td>{{user.cmsBinDiscription}}</td>
+                    <td>{{user.cmsBinCurrency}}</td>
+                    <td>{{user.cmsSettlementCurrency}}</td>
+                    <td>{{user.cmsBinType}}</td>
+                    <td>{{user.cmsBinDigit}}</td>
+                    <td>{{user.cmsBinIssuer}}</td>
+                    <td>{{user.cmsCheckParity}}</td>
+                </tr>
+                <tr *ngIf="error">
+                    <td colspan="8">
+                        <h3>{{message}}</h3>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+
+    </div>
+    </div>

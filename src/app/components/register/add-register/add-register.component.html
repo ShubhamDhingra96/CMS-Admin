@@ -1,0 +1,461 @@
+<div class="container">
+    <h2>Entity Registration</h2>
+    <div [formGroup]="registerCompany" (ngSubmit)="save()">
+        <div class="row">
+            <div class="col-md-12 col-sm-12 mx-auto reg">
+                <accordion [isAnimated]="true">
+                    <accordion-group heading="Company Details" [isOpen]="isFirstOpen">
+                        <input type="hidden" formControlName="clientID">
+                        <input type="hidden" formControlName="companyid">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-12 row">
+                                <div class="col-md-6">
+                                    <label class="col-form-label">Entity Name<span style="color: red;">*</span></label>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <input type="text" name="cmsCompanyName" formControlName="cmsCompanyName" class="form-control form-control-sm" maxlength="30" [ngClass]="{ 'is-invalid':submitted && registerCompany.get('cmsCompanyName').errors}">
+                                    <div *ngIf="submitted && registerCompany.get('cmsCompanyName').errors" class="invalid-feedback ">
+                                        <div *ngIf="registerCompany.get('cmsCompanyName').errors.required ">Entity name should not be empty.</div>
+                                        <div *ngIf="registerCompany.get('cmsCompanyName').errors.pattern">Remove space at the end of name.</div>
+                                        <div *ngIf="registerCompany.get('cmsCompanyName').errors.maxlength || registerCompany.get('cmsCompanyName').errors.minlength">Length should be between 10 to 20 char.</div>
+                                    </div>
+                                    <div *ngIf="companyCheck" class="invalid-feedback ">
+                                        Entity already exist.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-12 row ">
+                                <div class="col-md-6 ">
+                                    <label class="col-form-label">Location</label>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <input type="text " formControlName="cmsCompanylocation" class="form-control form-control-sm" maxlength="20">
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                        <div class="row ">
+                            <div class="col-md-6 col-sm-12 row ">
+                                <div class="col-md-6 ">
+                                    <label class="col-form-label">Address1<span style="color: red;">*</span></label>
+                                </div>
+                                <div class="form-group col-md-6 ">
+                                    <input type="text " formControlName="cmsCompanyAddress1" class="form-control form-control-sm" maxlength="30" [ngClass]="{ 'is-invalid':submitted && registerCompany.get('cmsCompanyAddress1').errors}">
+                                    <div *ngIf="submitted && registerCompany.get('cmsCompanyAddress1').errors " class="invalid-feedback ">
+                                        <div *ngIf="registerCompany.get('cmsCompanyAddress1').errors.required ">Address1 should not be empty.</div>
+                                        <div *ngIf="registerCompany.get('cmsCompanyAddress1').errors.pattern ">Do not use special character (@!#$%^&*()).</div>
+                                        <div *ngIf="registerCompany.get('cmsCompanyAddress1').errors.maxlength || registerCompany.get('cmsCompanyAddress1').errors.minlength">Length should be between 10 to 20 char.</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-12 row ">
+                                <div class="col-md-6 ">
+                                    <label class="col-form-label">Address2</label>
+                                </div>
+                                <div class="form-group col-md-6 ">
+                                    <input type="text " formControlName="cmsCompanyAddress2" class="form-control form-control-sm" maxlength="20" [ngClass]="{ 'is-invalid':submitted && registerCompany.get('cmsCompanyAddress2').errors}">
+                                    <div *ngIf="submitted && registerCompany.get('cmsCompanyAddress2').errors " class="invalid-feedback ">
+                                        <div *ngIf="registerCompany.get('cmsCompanyAddress2').errors.required ">Address2 should not be empty.</div>
+                                        <div *ngIf="registerCompany.get('cmsCompanyAddress2').errors.pattern ">Do not use special character (@!#$%^&*()).</div>
+                                        <div *ngIf="registerCompany.get('cmsCompanyAddress2').errors.maxlength || registerCompany.get('cmsCompanyAddress2').errors.minlength">Length should be between 10 to 20 char.</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="row ">
+                            <div class="col-md-6 col-sm-12 row ">
+                                <div class="col-md-6 ">
+                                    <label class="col-form-label">Country<span style="color: red;">*</span></label>
+                                </div>
+                                <div class="form-group col-md-6 ">
+                                    <select class="form-control form-control-sm" formControlName="cmsCompanyCountry" (change)="selectState() " [ngClass]="{ 'is-invalid':submitted && registerCompany.get('cmsCompanyCountry').errors}">
+                                                    <option value="" >Select</option>
+                                                    <option *ngFor="let country of countries " value="{{country.countryId}} ">{{country.countryName}}</option>
+                                                </select>
+                                    <div *ngIf="submitted && registerCompany.get('cmsCompanyCountry').errors " class="invalid-feedback ">
+                                        <div *ngIf="registerCompany.get('cmsCompanyCountry').errors.required ">Country should not be empty.</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-12 row ">
+                                <div class="col-md-6 ">
+                                    <label class="col-form-label">Province<span style="color: red;">*</span></label>
+                                </div>
+                                <div class="form-group col-md-6 ">
+                                    <select formControlName="cmsCompanyState" class="form-control form-control-sm" (change)="selectCity() " [ngClass]="{ 'is-invalid':submitted && registerCompany.get('cmsCompanyState').errors}">
+                                                <option value="">Select</option>
+                                                <option *ngFor="let state of states " value="{{state.stateId}} ">{{state.stateName}}</option>
+                                            </select>
+                                    <div *ngIf="submitted && registerCompany.get('cmsCompanyState').errors " class="invalid-feedback ">
+                                        <div *ngIf="registerCompany.get('cmsCompanyState').errors.required ">State should not be empty.</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row ">
+                            <div class="col-md-6 col-sm-12 row ">
+                                <div class="col-md-6 ">
+                                    <label class="col-form-label">City<span style="color: red;">*</span></label>
+                                </div>
+                                <div class="form-group col-md-6 ">
+                                    <select class="form-control form-control-sm" formControlName="cmsCompanyCity" [ngClass]="{ 'is-invalid':submitted && registerCompany.get('cmsCompanyAddress1').errors}">
+                                                    <option value=""  >Select</option>
+                                                    <option *ngFor="let city of cities " value="{{city.cityId}} ">{{city.cityName}}</option>
+                                                </select>
+                                    <div *ngIf="registerCompany.get('cmsCompanyCity').errors" class="invalid-feedback " [ngClass]="{ 'is-invalid':submitted && registerCompany.get('cmsCompanyCity').errors}">
+                                        <div *ngIf="registerCompany.get('cmsCompanyCity').errors.required">City should not be empty.</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-12 row ">
+                                <div class="col-md-6 ">
+                                    <label class="col-form-label">PostalCode<span style="color: red;">*</span></label>
+
+                                </div>
+                                <div class="form-group col-md-6 ">
+                                    <input type="number " formControlName="cmsCompanyPincode" class="form-control form-control-sm" maxlength="6" [ngClass]="{ 'is-invalid':submitted && registerCompany.get('cmsCompanyPincode').errors}">
+                                    <div *ngIf="submitted && registerCompany.get('cmsCompanyPincode').errors " class="invalid-feedback ">
+                                        <div *ngIf="registerCompany.get('cmsCompanyPincode').errors.required ">Pincode should not be empty.</div>
+                                        <div *ngIf="registerCompany.get('cmsCompanyPincode').errors.pattern ">Invalid pincode.</div>
+                                        <div *ngIf="registerCompany.get('cmsCompanyPincode').errors.minlength && registerCompany.get('cmsCompanyPincode').errors.maxlength">Pincode must be 6 Digits.</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="row ">
+
+                            <div class="col-md-6 col-sm-12 row ">
+                                <div class="col-md-6 ">
+                                    <label class="col-form-label">Currency Conversion Agent<span style="color: red;">*</span></label>
+                                </div>
+                                <div class="form-group col-md-6 ">
+                                    <select formControlName="cmsCompanyPhone1" class="form-control form-control-sm" [ngClass]="{ 'is-invalid':submitted && registerCompany.get('cmsCompanyPhone1').errors}">
+                                                        <option value="" >Select</option>
+                                                        <option value="master ">Master</option>
+                                                        <option value="visa ">Visa</option>
+                                                        <option value="rupay ">Rupay</option>
+                                                    </select>
+                                    <div *ngIf="submitted && registerCompany.get('cmsCompanyPhone1').errors" class="invalid-feedback ">
+                                        <div *ngIf="registerCompany.get('cmsCompanyPhone1').errors.required">Currency Conversion Agent should not be empty.</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </accordion-group>
+                    <accordion-group heading="Contact Details">
+
+                        <div class="row ">
+                            <div class="col-md-6 col-sm-12 row ">
+                                <div class="col-md-6 ">
+                                    <label class="col-form-label">FirstName<span style="color: red;">*</span></label>
+                                </div>
+                                <div class="form-group col-md-6 ">
+                                    <input type="text" formControlName="cmsCompanyCPFname" class="form-control " maxlength="20" [ngClass]="{ 'is-invalid':submitted && registerCompany.get('cmsCompanyCPFname').errors}">
+                                    <div *ngIf="submitted && registerCompany.get('cmsCompanyCPFname').errors" class="invalid-feedback ">
+                                        <div *ngIf="registerCompany.get('cmsCompanyCPFname').errors.required">First name should not be empty.</div>
+                                        <div *ngIf="registerCompany.get('cmsCompanyCPFname').errors.pattern">First name is invalid.</div>
+                                        <div *ngIf="registerCompany.get('cmsCompanyCPFname').errors.maxlength || registerCompany.get('cmsCompanyCPFname').errors.minlength">Length should be between 10 to 20 char.</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-12 row ">
+                                <div class="col-md-6 ">
+                                    <label class="col-form-label">LastName<span style="color: red;">*</span></label>
+
+                                </div>
+                                <div class="form-group col-md-6 ">
+                                    <input type="text" formControlName="cmsCompanyCPLname" class="form-control " maxlength="20" [ngClass]="{ 'is-invalid':submitted && registerCompany.get('cmsCompanyCPLname').errors}">
+                                    <div *ngIf="submitted && registerCompany.get('cmsCompanyCPLname').errors" class="invalid-feedback ">
+                                        <div *ngIf="registerCompany.get('cmsCompanyCPLname').errors.required">Last Name should not be empty.</div>
+                                        <div *ngIf="registerCompany.get('cmsCompanyCPLname').errors.pattern">Last name is invalid.</div>
+                                        <div *ngIf="registerCompany.get('cmsCompanyCPLname').errors.maxlength || registerCompany.get('cmsCompanyCPLname').errors.minlength">Length should be between 10 to 20 char.</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row ">
+                            <div class="col-md-6 col-sm-12 row ">
+                                <div class="col-md-6 ">
+                                    <label class="col-form-label">Mailing Address<span style="color: red;">*</span></label>
+                                </div>
+                                <div class="form-group col-md-6 ">
+                                    <input type="email" formControlName="cmsCompanyCPMailingAddress" class="form-control " maxlength="20" [ngClass]="{ 'is-invalid':submitted && registerCompany.get('cmsCompanyCPMailingAddress').errors}">
+                                    <div *ngIf="submitted && registerCompany.get('cmsCompanyCPMailingAddress').errors" class="invalid-feedback ">
+                                        <div *ngIf="registerCompany.get('cmsCompanyCPMailingAddress').errors.required">Mailing address should not be empty.</div>
+                                        <div *ngIf="registerCompany.get('cmsCompanyCPMailingAddress').errors.pattern">Mailing Address is invalid.</div>
+                                        <div *ngIf="registerCompany.get('cmsCompanyCPMailingAddress').errors.maxlength || registerCompany.get('cmsCompanyCPMailingAddress').errors.minlength">Length should be between 10 to 20 char.</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-12 row ">
+                                <div class="col-md-6">
+                                    <label class="col-form-label">Telephone(Off)<span style="color: red;">*</span></label>
+                                </div>
+                                <div class="form-group col-md-6 ">
+                                    <input type="number " formControlName="cmsCompanyCPTelOff" class="form-control " maxlength="10" [ngClass]="{ 'is-invalid':submitted && registerCompany.get('cmsCompanyCPTelOff').errors}">
+                                    <div *ngIf="submitted && registerCompany.get('cmsCompanyCPTelOff').errors" class="invalid-feedback ">
+                                        <div *ngIf="registerCompany.get('cmsCompanyCPTelOff').errors.required">Official Telephone no. should not be empty.</div>
+                                        <div *ngIf="registerCompany.get('cmsCompanyCPTelOff').errors.pattern">Telephone no. is invalid.</div>
+                                        <div *ngIf="registerCompany.get('cmsCompanyCPTelOff').errors.maxlength || registerCompany.get('cmsCompanyCPTelOff').errors.minlength">Length should be between 10 to 20 char.</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="row ">
+                            <div class="col-md-6 col-sm-12 row ">
+                                <div class="col-md-6">
+                                    <label class="col-form-label">Telephone(Res)<span style="color: red;">*</span></label>
+                                </div>
+                                <div class="form-group col-md-6 ">
+                                    <input type="number" formControlName="cmsCompanyCPTelRes" class="form-control " maxlength="10" [ngClass]="{ 'is-invalid':submitted && registerCompany.get('cmsCompanyCPTelRes').errors}">
+                                    <div *ngIf="submitted && registerCompany.get('cmsCompanyCPTelRes').errors" class="invalid-feedback ">
+                                        <div *ngIf="registerCompany.get('cmsCompanyCPTelRes').errors.required">Residential Telephone no. should not be empty.</div>
+                                        <div *ngIf="registerCompany.get('cmsCompanyCPTelRes').errors.pattern">Telephone no. is invalid.</div>
+                                        <div *ngIf="registerCompany.get('cmsCompanyCPTelRes').errors.maxlength || registerCompany.get('cmsCompanyCPTelRes').errors.minlength">Length should be between 10 to 20 char.</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-12 row ">
+                                <div class="col-md-6">
+                                    <label class="col-form-label">Mobile<span style="color: red;">*</span></label>
+                                </div>
+                                <div class="form-group col-md-6 ">
+                                    <input type="text" formControlName="cmsCompanyCPMobile" class="form-control " maxlength="10" [ngClass]="{ 'is-invalid':submitted && registerCompany.get('cmsCompanyCPMobile').errors}">
+                                    <div *ngIf="submitted && registerCompany.get('cmsCompanyCPMobile').errors" class="invalid-feedback ">
+                                        <div *ngIf="registerCompany.get('cmsCompanyCPMobile').errors.required">Mobile should not be empty.</div>
+                                        <div *ngIf="registerCompany.get('cmsCompanyCPMobile').errors.pattern">Mobile no. is invalid.</div>
+                                        <div *ngIf="registerCompany.get('cmsCompanyCPMobile').errors.maxlength || registerCompany.get('cmsCompanyCPMobile').errors.minlength">Length should be between 10 to 20 char.</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row ">
+                            <div class="col-md-6 col-sm-12 row ">
+                                <div class="col-md-6">
+                                    <label class="col-form-label">Fax</label>
+                                </div>
+                                <div class="form-group col-md-6 ">
+                                    <input type="text" maxlength="20" formControlName="cmsCompanyCPfax" class="form-control " [ngClass]="{ 'is-invalid':submitted && registerCompany.get('cmsCompanyCPfax').errors}">
+                                    <div *ngIf="submitted && registerCompany.get('cmsCompanyCPfax').errors" class="invalid-feedback ">
+                                        <div *ngIf="registerCompany.get('cmsCompanyCPfax').errors.maxlength || registerCompany.get('cmsCompanyCPfax').errors.minlength">Length should be between 10 to 20 char.</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-12 row ">
+                                <div class="col-md-6">
+                                    <label class="col-form-label">Location</label>
+                                </div>
+                                <div class="form-group col-md-6 ">
+                                    <input type="text " formControlName="cmsCompanyCPlocation" maxlength="20" class="form-control " [ngClass]="{ 'is-invalid':submitted && registerCompany.get('cmsCompanyCPlocation').errors}">
+                                    <div *ngIf="submitted && registerCompany.get('cmsCompanyCPlocation').errors" class="invalid-feedback ">
+                                        <div *ngIf="registerCompany.get('cmsCompanyCPlocation').errors.maxlength || registerCompany.get('cmsCompanyCPlocation').errors.minlength">Length should be between {{registerCompany.get('cmsCompanyCPlocation').minlength}} to 20 char.</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row ">
+                            <div class="col-md-6 col-sm-12 row ">
+                                <div class="col-md-6">
+                                    <label class="col-form-label">Country<span style="color: red;">*</span></label>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <select class="form-control" formControlName="cmsCompanyCPCountry" (change)="selectCPState()" [ngClass]="{ 'is-invalid':submitted && registerCompany.get('cmsCompanyCPCountry').errors}">
+                                                    <option value="">Select</option>
+                                                    <option *ngFor="let country of _countries " value="{{country.countryId}} ">{{country.countryName}}</option>
+                                                </select>
+                                    <div *ngIf="submitted && registerCompany.get('cmsCompanyCPCountry').errors" class="invalid-feedback ">
+                                        <div *ngIf="registerCompany.get('cmsCompanyCPCountry').errors.required">Country should not be empty.</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-12 row ">
+                                <div class="col-md-6 ">
+                                    <label class="col-form-label">Province<span style="color: red;">*</span></label>
+                                </div>
+                                <div class="form-group col-md-6 ">
+                                    <select formControlName="cmsCompanyCPState" class="form-control " (change)="selectCPCity()" [ngClass]="{ 'is-invalid':submitted && registerCompany.get('cmsCompanyCPState').errors}">
+                                                <option value="">Select</option>
+                                                <option *ngFor="let state of _states " value="{{state.stateId}} ">{{state.stateName}}</option>
+                                                
+                                            </select>
+                                    <div *ngIf="submitted && registerCompany.get('cmsCompanyCPState').errors" class="invalid-feedback ">
+                                        <div *ngIf="registerCompany.get('cmsCompanyCPState').errors.required">State should not be empty.</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row ">
+                            <div class="col-md-6 col-sm-12 row ">
+                                <div class="col-md-6 ">
+                                    <label class="col-form-label">City<span style="color: red;">*</span></label>
+                                </div>
+                                <div class="form-group col-md-6 ">
+                                    <select class="form-control " formControlName="cmsCompanyCPCity" [ngClass]="{ 'is-invalid':submitted && registerCompany.get('cmsCompanyCPCity').errors}">
+                                                    <option value="">Select</option>
+                                                    <option *ngFor="let city of _cities " value="{{city.cityId}} ">{{city.cityName}}</option>
+
+                                                </select>
+                                    <div *ngIf="submitted && registerCompany.get('cmsCompanyCPCity').errors" class="invalid-feedback ">
+                                        <div *ngIf="registerCompany.get('cmsCompanyCPCity').errors.required">City should not be empty.</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-12 row ">
+                                <div class="col-md-6 ">
+                                    <label class="col-form-label">E-Mail<span style="color: red;">*</span></label>
+                                </div>
+                                <div class="form-group col-md-6 ">
+                                    <input type="email" formControlName="cmsCompanyCPEmail" maxlength="60" class="form-control " [ngClass]="{ 'is-invalid':submitted && registerCompany.get('cmsCompanyCPEmail').errors}">
+                                    <div *ngIf="submitted && registerCompany.get('cmsCompanyCPEmail').errors" class="invalid-feedback ">
+                                        <div *ngIf="registerCompany.get('cmsCompanyCPEmail').errors.required">Email should not be empty.</div>
+                                        <div *ngIf="registerCompany.get('cmsCompanyCPEmail').errors.pattern">Email is invalid.</div>
+                                        <div *ngIf="registerCompany.get('cmsCompanyCPEmail').errors.maxlength || registerCompany.get('cmsCompanyCPEmail').errors.minlength">Length should be between 10 to 20 char.</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row ">
+                            <div class="col-md-6 col-sm-12 row ">
+                                <div class="col-md-6 ">
+                                    <label class="col-form-label">PostalCode<span style="color: red;">*</span></label>
+                                </div>
+                                <div class="form-group col-md-6 ">
+                                    <input type="text" formControlName="cmsCompanyCPPincode" class="form-control " maxlength="6" [ngClass]="{ 'is-invalid':submitted && registerCompany.get('cmsCompanyCPPincode').errors}">
+                                    <div *ngIf="submitted && registerCompany.get('cmsCompanyCPPincode').errors" class="invalid-feedback ">
+                                        <div *ngIf="registerCompany.get('cmsCompanyCPPincode').errors.required">Postal code should not be empty.</div>
+                                        <div *ngIf="registerCompany.get('cmsCompanyCPPincode').errors.pattern">Pincode is invalid.</div>
+                                        <div *ngIf="registerCompany.get('cmsCompanyCPPincode').errors.maxlength || registerCompany.get('cmsCompanyCPPincode').errors.minlength">Length should be between {{registerCompany.get('cmsCompanyCPPincode').errors.minlength}} to 20 char.</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 col-sm-12 row ">
+                                <div class="col-sm-9 col-md-9 "></div>
+                                <div class="col-sm-3 col-md-3 ">
+                                    <input type="button" class="btn btn1 shadow btnSubmit bg-color form-control text-white " value="Add " (click)="addPerson() " />
+
+                                </div>
+                            </div>
+                        </div>
+                    </accordion-group>
+
+
+                </accordion>
+                <br/>
+                <br/>
+                <div class="container" *ngIf="showTable">
+                    <div class="row ">
+                        <div class="col-lg-12 col-md-12 form ">
+                            <table class="table table-bordered form-group ">
+                                <thead>
+                                    <tr>
+                                        <th>Select</th>
+                                        <th>Contact Person</th>
+                                        <th>Telephone Off</th>
+                                        <th>Location</th>
+                                        <th>E-Mail</th>
+                                        <th>Country</th>
+                                    </tr>
+
+                                </thead>
+                                <tbody formArrayName="contactPersons" class="form-group" *ngFor="let r of registerCompany.get('contactPersons').controls ; index as i ">
+                                    <tr [formGroupName]="i">
+                                        <input type="hidden" formControlName="cmsCompanyCPMailingAddress" class="form-control br mb-4 ">
+                                        <input type="hidden" formControlName="cmsCompanyCPTelRes" class="form-control br mb-4 ">
+                                        <input type="hidden" formControlName="cmsCompanyCPMobile" class="form-control br mb-4 ">
+                                        <input type="hidden" formControlName="cmsCompanyCPfax" class="form-control br mb-4 ">
+                                        <input type="hidden" formControlName="cmsCompanyCity" class="form-control br mb-4 ">
+                                        <input type="hidden" formControlName="cmsCompanyState" class="form-control br mb-4 ">
+                                        <input type="hidden" formControlName="cmsCompanyCPPincode" class="form-control br mb-4 ">
+                                        <input type="hidden" formControlName="cmsCompanyCPFname" class="form-control ">
+                                        <input type="hidden" formControlName="cmsCompanyCPLname" class="form-control ">
+                                        <td>
+                                            <input type="checkbox" formControlName="selected" class="form-control-checkbox " (click)="checked(i) ">
+                                        </td>
+                                        <td>
+                                            <input type="text" formControlName="cmsCompanyCPfullName" class="form-control " readonly>
+                                        </td>
+                                        <td>
+                                            <input type="number" formControlName="cmsCompanyCPTelOff" class="form-control " readonly>
+                                        </td>
+                                        <td>
+
+                                            <input type="text" formControlName="cmsCompanyCPlocation" class="form-control " readonly>
+                                        </td>
+                                        <td>
+                                            <input type="email" formControlName="cmsCompanyCPEmail" class="form-control br mb-4 " readonly>
+                                        </td>
+                                        <td>
+                                            <input type="text" formControlName="cmsCompanyCountry" class="form-control br mb-4 " readonly>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <hr/>
+                <div class="d-flex flex-row-reverse ">
+                    <div class="btn-toolbar ">
+                        <input type="submit" class="btn btn1 shadow btnSubmit bg-color text-white btn-space " value="Submit" (click)="save()" />
+                        <input type="reset" class="btn btn1 shadow btnSubmit bg-color text-white btn-space " value="Reset" (click)="reset() " />
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal" id="success" role="dialog">
+    <div class="modal-dialog modal-dialog-centered">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header bg-info">
+                <h3 class="text-light">Success</h3>
+                <button type="button" class="close" (click)="close()" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <h4>{{success}}</h4>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-info" data-dismiss="modal" (click)="close()">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="modal" id="error" role="dialog">
+    <div class="modal-dialog modal-dialog-centered">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header bg-danger">
+                <h3 class="text-light">Error</h3>
+                <button type="button" class="close" (click)="close()" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <h4>{{success}}</h4>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="close()">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,48 @@
+<!--The content below is only a placeholder and can be replaced.-->
+
+<div class="wrapper">
+    <!-- Sidebar  -->
+    <app-sidebar *ngIf="loginActive"></app-sidebar>
+    <!-- Sidebar-->
+    <!-- Page Content  -->
+    <div id="content" class="bg-light  right_col">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light" *ngIf="loginActive">
+            <div class="container-fluid p-0">
+                <button type="button" id="sidebarCollapse" class="btn btn-outline-light text-dark">
+              <i class="fa fa-bars" aria-hidden="true"></i>
+            </button>
+                <app-dashboard-menu></app-dashboard-menu>
+                <div class="ml-auto">
+                    <div class="btn-group" dropdown placement="bottom right">
+                        <button id="button-alignment" dropdownToggle type="button" class="btn mail btn-secondary dropdown-toggle" aria-controls="dropdown-alignment">
+                  <i class="font-16 fa fa-envelope-o" aria-hidden="true"></i>
+                  <span class="badge1 bg-color">6</span>
+                </button>
+                        <ul id="dropdown-alignment" *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="button-alignment">
+                            <li role="menuitem">lorem ipsum lorem ipsum lorem ipsum</li>
+                            <li role="menuitem">lorem ipsum lorem ipsum lorem ipsum</li>
+                        </ul>
+                    </div>
+                    <div class="btn-group" dropdown placement="bottom right">
+                        <button id="button-alignment" dropdownToggle type="button" class="btn login btn-secondary dropdown-toggle" aria-controls="dropdown-alignment">
+                  <i class="font-27 fa fa-user-circle-o" aria-hidden="true"></i><span class="caret"></span>
+                </button>
+                        <ul id="dropdown-alignment" *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="button-alignment">
+                            <li role="menuitem">
+                                <a class="dropdown-item">
+                                    <i class="fa fa-user" aria-hidden="true"></i> Profile</a>
+                            </li>
+                            <li role="menuitem"><a class="dropdown-item" routerLink="./dashboard/change-password" (click)="forgotPassword()"><i
+                        class="fa fa-unlock-alt" aria-hidden="true"></i>
+                      Change Password</a></li>
+                            <li role="menuitem"><a class="dropdown-item" (click)="logout()" routerLink="/"><i class="fa fa-sign-in"
+                        aria-hidden="true"></i> Logged Out</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        <router-outlet></router-outlet>
+
+    </div>
+</div>

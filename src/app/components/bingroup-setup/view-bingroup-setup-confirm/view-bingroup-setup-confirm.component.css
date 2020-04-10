@@ -1,0 +1,7 @@
+.table-borderless td, .table-borderless th {
+    border: 0;
+}
+
+.br-top {
+    border-top: 1px solid rgba(0, 0, 0, .1);
+}
